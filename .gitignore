@@ -1,0 +1,22 @@
+# Dataset e artefatti locali
+/data/
+
+# Materiale didattico fornito separatamente
+/materiale_corso/
+
+# Documenti di lavoro locali
+/report.md
+/ROADMAP.md
+/AGENTS.md
+
+# Configurazione locale e file generati
+/.env
+/.venv/
+__pycache__/
+*.py[cod]
+/.pytest_cache/
+/.idea/
+/.vscode/
+
+# Risultati generati: da valutare per il versionamento a progetto concluso
+/reports/

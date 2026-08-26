@@ -1,0 +1,208 @@
+name: ecommerce-rag-analytics
+
+x-hadoop-common: &hadoop-common
+  image: ${HADOOP_IMAGE:-apache/hadoop:3.4.1}
+  # I volumi nominati di Docker Desktop nascono root:root. I daemon vengono
+  # eseguiti come root solo nell'ambiente didattico locale per poterli inizializzare.
+  user: "0:0"
+  restart: unless-stopped
+  environment:
+    HADOOP_CONF_DIR: /opt/hadoop/etc/hadoop
+  networks:
+    - bigdata
+  volumes:
+    - ./config/hdfs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+    - ./config/hdfs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+
+x-spark-worker-common: &spark-worker-common
+  image: ${SPARK_IMAGE:-apache/spark:3.5.5}
+  restart: unless-stopped
+  entrypoint: ["/opt/spark/bin/spark-class"]
+  environment:
+    SPARK_NO_DAEMONIZE: "true"
+    SPARK_WORKER_CORES: ${SPARK_WORKER_CORES:-2}
+    SPARK_WORKER_MEMORY: ${SPARK_WORKER_MEMORY:-2g}
+  depends_on:
+    spark-master:
+      condition: service_healthy
+  networks:
+    - bigdata
+
+services:
+  namenode:
+    <<: *hadoop-common
+    hostname: namenode
+    command:
+      - bash
+      - -c
+      - |
+        if [ ! -d /opt/hadoop/data/name/current ]; then
+          hdfs namenode -format -force -nonInteractive
+        fi
+        exec hdfs namenode
+    ports:
+      - "${HDFS_NAMENODE_UI_PORT:-9870}:9870"
+      - "${HDFS_NAMENODE_RPC_PORT:-9000}:9000"
+    volumes:
+      - ./config/hdfs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./config/hdfs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - namenode-data:/opt/hadoop/data/name
+    healthcheck:
+      test: ["CMD-SHELL", "hdfs dfsadmin -safemode get 2>/dev/null | grep -q OFF"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 20s
+
+  datanode-1:
+    <<: *hadoop-common
+    hostname: datanode-1
+    command: ["hdfs", "datanode"]
+    depends_on:
+      namenode:
+        condition: service_started
+    ports:
+      - "${HDFS_DATANODE_1_UI_PORT:-9864}:9864"
+    volumes:
+      - ./config/hdfs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./config/hdfs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - datanode-1-data:/opt/hadoop/data/data
+    healthcheck:
+      test: ["CMD-SHELL", "hdfs dfsadmin -report 2>/dev/null | grep -q 'Live datanodes'"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 20s
+
+  datanode-2:
+    <<: *hadoop-common
+    hostname: datanode-2
+    command: ["hdfs", "datanode"]
+    depends_on:
+      namenode:
+        condition: service_started
+    ports:
+      - "${HDFS_DATANODE_2_UI_PORT:-9865}:9864"
+    volumes:
+      - ./config/hdfs/core-site.xml:/opt/hadoop/etc/hadoop/core-site.xml:ro
+      - ./config/hdfs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
+      - datanode-2-data:/opt/hadoop/data/data
+    healthcheck:
+      test: ["CMD-SHELL", "hdfs dfsadmin -report 2>/dev/null | grep -q 'Live datanodes'"]
+      interval: 10s
+      timeout: 5s
+      retries: 18
+      start_period: 20s
+
+  spark-master:
+    image: ${SPARK_IMAGE:-apache/spark:3.5.5}
+    hostname: spark-master
+    restart: unless-stopped
+    entrypoint: ["/opt/spark/bin/spark-class"]
+    command:
+      - org.apache.spark.deploy.master.Master
+      - --host
+      - spark-master
+      - --port
+      - "7077"
+      - --webui-port
+      - "8080"
+    environment:
+      SPARK_NO_DAEMONIZE: "true"
+    ports:
+      - "${SPARK_MASTER_UI_PORT:-18080}:8080"
+      - "${SPARK_MASTER_PORT:-7077}:7077"
+    networks:
+      - bigdata
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/spark-master/7077'"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
+  spark-worker-1:
+    <<: *spark-worker-common
+    hostname: spark-worker-1
+    command:
+      - org.apache.spark.deploy.worker.Worker
+      - spark://spark-master:7077
+      - --webui-port
+      - "8081"
+    ports:
+      - "${SPARK_WORKER_1_UI_PORT:-18081}:8081"
+
+  spark-worker-2:
+    <<: *spark-worker-common
+    hostname: spark-worker-2
+    command:
+      - org.apache.spark.deploy.worker.Worker
+      - spark://spark-master:7077
+      - --webui-port
+      - "8081"
+    ports:
+      - "${SPARK_WORKER_2_UI_PORT:-18082}:8081"
+
+  chroma:
+    image: ${CHROMA_IMAGE:-chromadb/chroma:1.0.20}
+    hostname: chroma
+    restart: unless-stopped
+    environment:
+      IS_PERSISTENT: "TRUE"
+      ANONYMIZED_TELEMETRY: "FALSE"
+      PERSIST_DIRECTORY: /chroma/chroma
+    ports:
+      - "${CHROMA_PORT:-8000}:8000"
+    volumes:
+      - chroma-data:/chroma/chroma
+    networks:
+      - bigdata
+
+  app:
+    build:
+      context: .
+      dockerfile: docker/app/Dockerfile
+      args:
+        SPARK_IMAGE: ${SPARK_IMAGE:-apache/spark:3.5.5}
+    hostname: app
+    restart: unless-stopped
+    entrypoint: ["/bin/bash", "-c"]
+    command: ["trap : TERM INT; sleep infinity & wait"]
+    environment:
+      APP_ENV: ${APP_ENV:-local}
+      PYTHONPATH: /workspace/src
+      HADOOP_CONF_DIR: /workspace/config/hdfs
+      SPARK_CONF_DIR: /workspace/config/spark
+      HOME: /tmp/app-home
+    depends_on:
+      namenode:
+        condition: service_healthy
+      datanode-1:
+        condition: service_healthy
+      datanode-2:
+        condition: service_healthy
+      spark-master:
+        condition: service_healthy
+      spark-worker-1:
+        condition: service_started
+      spark-worker-2:
+        condition: service_started
+      chroma:
+        condition: service_started
+    volumes:
+      - ./:/workspace
+      - app-cache:/tmp/app-home
+    working_dir: /workspace
+    networks:
+      - bigdata
+
+networks:
+  bigdata:
+    name: ecommerce-rag-network
+
+volumes:
+  namenode-data:
+  datanode-1-data:
+  datanode-2-data:
+  chroma-data:
+  app-cache:

@@ -1,0 +1,1 @@
+"""Infrastructure smoke tests."""

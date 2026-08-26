@@ -1,0 +1,25 @@
+environment: local
+
+storage:
+  scheme: hdfs
+  base_uri: hdfs://namenode:9000/data
+  raw_uri: hdfs://namenode:9000/data/raw
+  processed_uri: hdfs://namenode:9000/data/processed
+  curated_uri: hdfs://namenode:9000/data/curated
+  scaled_uri: hdfs://namenode:9000/data/scaled
+  outputs_uri: hdfs://namenode:9000/data/outputs
+
+spark:
+  master: spark://spark-master:7077
+  driver_host: app
+  driver_port: 39000
+  block_manager_port: 39001
+
+chroma:
+  host: chroma
+  port: 8000
+  collection: olist_reviews
+
+application:
+  language: it
+  source_review_language: pt
