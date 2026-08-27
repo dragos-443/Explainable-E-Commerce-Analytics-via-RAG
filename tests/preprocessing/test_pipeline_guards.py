@@ -1,0 +1,59 @@
+"""Tests for Phase 1 preprocessing invariants."""
+
+from __future__ import annotations
+
+import pytest
+from pyspark.sql import SparkSession
+
+from ecommerce_rag.preprocessing.pipeline import (
+    QualityRecorder,
+    assert_unique,
+    join_without_fanout,
+)
+
+
+@pytest.fixture(scope="module")
+def spark() -> SparkSession:
+    session = (
+        SparkSession.builder.master("local[1]")
+        .appName("phase-1-guard-tests")
+        .config("spark.ui.enabled", "false")
+        .config("spark.sql.shuffle.partitions", "1")
+        .getOrCreate()
+    )
+    yield session
+    session.stop()
+
+
+def test_join_without_fanout_accepts_unique_right_key(spark: SparkSession) -> None:
+    left = spark.createDataFrame([("order-1",), ("order-2",)], ["order_id"])
+    right = spark.createDataFrame(
+        [("order-1", "paid"), ("order-2", "shipped")],
+        ["order_id", "status"],
+    )
+
+    result = join_without_fanout(
+        left, right, "order_id", "unique_join", QualityRecorder()
+    )
+
+    assert result.count() == 2
+
+
+def test_join_without_fanout_rejects_duplicate_right_key(spark: SparkSession) -> None:
+    left = spark.createDataFrame([("order-1",), ("order-2",)], ["order_id"])
+    right = spark.createDataFrame(
+        [("order-1", "item-1"), ("order-1", "item-2")],
+        ["order_id", "item_id"],
+    )
+
+    with pytest.raises(ValueError, match="Fan-out detected"):
+        join_without_fanout(
+            left, right, "order_id", "duplicated_join", QualityRecorder()
+        )
+
+
+def test_single_column_logical_key_rejects_null(spark: SparkSession) -> None:
+    frame = spark.createDataFrame([("order-1",), (None,)], "order_id string")
+
+    with pytest.raises(ValueError, match="rows with null keys"):
+        assert_unique(frame, "orders", ["order_id"], QualityRecorder())

@@ -68,7 +68,7 @@ services:
       - ./config/hdfs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
       - datanode-1-data:/opt/hadoop/data/data
     healthcheck:
-      test: ["CMD-SHELL", "hdfs dfsadmin -report 2>/dev/null | grep -q 'Live datanodes'"]
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/9866'"]
       interval: 10s
       timeout: 5s
       retries: 18
@@ -88,7 +88,7 @@ services:
       - ./config/hdfs/hdfs-site.xml:/opt/hadoop/etc/hadoop/hdfs-site.xml:ro
       - datanode-2-data:/opt/hadoop/data/data
     healthcheck:
-      test: ["CMD-SHELL", "hdfs dfsadmin -report 2>/dev/null | grep -q 'Live datanodes'"]
+      test: ["CMD-SHELL", "bash -c '</dev/tcp/localhost/9866'"]
       interval: 10s
       timeout: 5s
       retries: 18
@@ -170,7 +170,7 @@ services:
     command: ["trap : TERM INT; sleep infinity & wait"]
     environment:
       APP_ENV: ${APP_ENV:-local}
-      PYTHONPATH: /workspace/src
+      PYTHONPATH: /workspace/src:/opt/spark/python:/opt/spark/python/lib/py4j-0.10.9.7-src.zip
       HADOOP_CONF_DIR: /workspace/config/hdfs
       SPARK_CONF_DIR: /workspace/config/spark
       HOME: /tmp/app-home

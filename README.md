@@ -100,6 +100,35 @@ recensioni di prova -> embedding deterministici -> Chroma -> query -> risultato
 Gli embedding dello smoke test servono solo a verificare il collegamento con
 Chroma. Non sono il modello multilingue definitivo del RAG.
 
+## Ingestion e preprocessing Olist
+
+Collocare i nove CSV originali in `data/raw/olist/`, quindi eseguire:
+
+```powershell
+.\scripts\run_pipeline.ps1 -Pipeline phase1
+```
+
+Lo script verifica i file e li carica senza sovrascrivere contenuti raw gia
+presenti in HDFS. Se un file con lo stesso nome ha un hash SHA-256 diverso,
+l'esecuzione viene interrotta. La pipeline PySpark produce:
+
+- tabelle tipizzate e aggregazioni in `/data/processed/olist`;
+- `orders_enriched`, `reviews_enriched` e `review_order_links` in
+  `/data/curated/olist`;
+- metriche di qualita, profili dei null e contratti tecnici in
+  `/data/outputs`.
+
+Le granularita, le regole di deduplicazione e le feature sono descritte nel
+[data contract della fase 1](docs/data-contracts/phase1.md).
+
+Per verificare sia le guardie anti-fan-out sia i Parquet realmente persistiti:
+
+```powershell
+docker compose exec -T app python3 -m pytest -q `
+  tests/preprocessing/test_pipeline_guards.py `
+  tests/integration/test_phase1_outputs.py
+```
+
 ## Dati e documenti locali
 
 `data/`, `materiale_corso/`, `reports/`, `ROADMAP.md`, `report.md` e `AGENTS.md`
