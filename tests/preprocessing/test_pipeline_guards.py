@@ -5,6 +5,10 @@ from __future__ import annotations
 import pytest
 from pyspark.sql import SparkSession
 
+from ecommerce_rag.preprocessing.export_sample import (
+    random_sample,
+    stratified_review_sample,
+)
 from ecommerce_rag.preprocessing.pipeline import (
     QualityRecorder,
     assert_unique,
@@ -57,3 +61,48 @@ def test_single_column_logical_key_rejects_null(spark: SparkSession) -> None:
 
     with pytest.raises(ValueError, match="rows with null keys"):
         assert_unique(frame, "orders", ["order_id"], QualityRecorder())
+
+
+def test_random_export_sample_is_reproducible(spark: SparkSession) -> None:
+    frame = spark.createDataFrame([(index,) for index in range(100)], ["id"])
+
+    first = [row.id for row in random_sample(frame, 10, 42).collect()]
+    second = [row.id for row in random_sample(frame, 10, 42).collect()]
+
+    assert first == second
+    assert len(first) == len(set(first)) == 10
+
+
+def test_review_export_balances_score_and_text_shape(spark: SparkSession) -> None:
+    rows = []
+    text_shapes = [(True, False), (False, True), (True, True)]
+    for score in range(1, 6):
+        for has_title, has_message in text_shapes:
+            for repetition in range(2):
+                rows.append(
+                    (
+                        f"{score}-{has_title}-{has_message}-{repetition}",
+                        score,
+                        has_title,
+                        has_message,
+                        True,
+                    )
+                )
+    frame = spark.createDataFrame(
+        rows,
+        [
+            "review_id",
+            "review_score",
+            "has_title",
+            "has_message",
+            "text_is_eligible",
+        ],
+    )
+
+    sample = stratified_review_sample(frame, 15, 42)
+    represented_strata = sample.select(
+        "review_score", "has_title", "has_message"
+    ).distinct()
+
+    assert sample.count() == 15
+    assert represented_strata.count() == 15
