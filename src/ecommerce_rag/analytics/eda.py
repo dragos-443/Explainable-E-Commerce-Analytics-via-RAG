@@ -13,14 +13,17 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 from pyspark import StorageLevel
-from pyspark.sql import Column, DataFrame, SparkSession, Window
+from pyspark.sql import DataFrame, SparkSession, Window
 from pyspark.sql import functions as F
 
+from ecommerce_rag.analytics.metrics import (
+    NEGATIVE_SCORE_MAX,
+    negative_indicator,
+)
 from ecommerce_rag.common.config import load_config
 
 
 MIN_GROUP_REVIEWS = 500
-NEGATIVE_SCORE_MAX = 2
 
 THEME_PATTERNS = {
     "non_delivery": r"\b(n[aã]o recebi|n[aã]o chegou|n[aã]o foi entregue|ainda n[aã]o|aguardando|nunca chegou)\b",
@@ -37,10 +40,6 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--environment", default="local")
     parser.add_argument("--report-root", default="/workspace/reports/eda/phase2")
     return parser.parse_args()
-
-
-def negative_indicator() -> Column:
-    return F.when(F.col("review_score") <= NEGATIVE_SCORE_MAX, 1).otherwise(0)
 
 
 def build_monthly_review_statistics(reviews: DataFrame) -> DataFrame:
