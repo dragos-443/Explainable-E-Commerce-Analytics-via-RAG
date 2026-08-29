@@ -21,19 +21,10 @@ from ecommerce_rag.analytics.metrics import (
     negative_indicator,
 )
 from ecommerce_rag.common.config import load_config
+from ecommerce_rag.rag.themes import complaint_theme_array, normalized_review_text
 
 
 MIN_GROUP_REVIEWS = 500
-
-THEME_PATTERNS = {
-    "non_delivery": r"\b(n[aã]o recebi|n[aã]o chegou|n[aã]o foi entregue|ainda n[aã]o|aguardando|nunca chegou)\b",
-    "delivery_delay": r"\b(atras\w*|demor\w*|prazo|correios|entrega tard\w*)\b",
-    "wrong_or_missing_item": r"\b(errad\w*|falt\w*|incomplet\w*|veio outro|produto diferente|item diferente)\b",
-    "damaged_or_defective": r"\b(defeit\w*|quebrad\w*|danific\w*|avariad\w*|n[aã]o funciona\w*)\b",
-    "quality_or_expectation": r"\b(qualidade|ruim|p[eé]ssim\w*|propaganda|foto|tamanho|material|acabamento|diferente do anunciado)\b",
-    "service_or_refund": r"\b(atendimento|contato|resposta|retorno|troca|devolu[cç][aã]o|reembolso|estorno|cancel\w*|dinheiro)\b",
-}
-
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
@@ -104,29 +95,13 @@ def build_monthly_review_statistics(reviews: DataFrame) -> DataFrame:
 
 
 def classify_complaint_themes(reviews: DataFrame) -> DataFrame:
-    normalized = F.lower(
-        F.regexp_replace(F.coalesce(F.col("review_text"), F.lit("")), r"[^\p{L}]+", " ")
-    )
-    token_count = F.size(F.filter(F.split(F.trim(normalized), r"\s+"), lambda x: F.length(x) > 1))
-    theme_columns = [
-        F.when(normalized.rlike(pattern), F.lit(theme))
-        for theme, pattern in THEME_PATTERNS.items()
-    ]
-    matched = F.filter(F.array(*theme_columns), lambda x: x.isNotNull())
     return (
         reviews.where(
             (F.col("review_score") <= NEGATIVE_SCORE_MAX)
             & F.col("text_is_eligible")
         )
-        .withColumn("normalized_review_text", F.trim(normalized))
-        .withColumn("matched_themes", matched)
-        .withColumn(
-            "complaint_themes",
-            F.when(F.size("matched_themes") > 0, F.col("matched_themes"))
-            .when(token_count < 4, F.array(F.lit("uncertain")))
-            .otherwise(F.array(F.lit("other"))),
-        )
-        .drop("matched_themes")
+        .withColumn("normalized_review_text", normalized_review_text())
+        .withColumn("complaint_themes", complaint_theme_array())
     )
 
 

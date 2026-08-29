@@ -17,7 +17,22 @@ spark:
 chroma:
   host: REPLACE_WITH_PRIVATE_HOST
   port: 8000
-  collection: olist_reviews
+  collection: olist_reviews_e5_v1
+
+rag:
+  collection_version: "1"
+  embedding_model: intfloat/multilingual-e5-small
+  embedding_revision: 614241f622f53c4eeff9890bdc4f31cfecc418b3
+  embedding_dimension: 384
+  embedding_batch_size: 128
+  distance_metric: cosine
+  passage_prefix: "passage: "
+  query_prefix: "query: "
+  theme_classifier_version: rules-pt-v2
+  translation_model: Helsinki-NLP/opus-mt-tc-big-itc-itc
+  translation_revision: a185ba7b3cac07bbd692dd517577b8c2dc7abb2c
+  translation_target_prefix: ">>ita<< "
+  translation_cache: /tmp/app-home/translation-cache/translations.sqlite3
 
 application:
   language: it
