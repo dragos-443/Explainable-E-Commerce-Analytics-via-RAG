@@ -35,6 +35,12 @@ rag:
   translation_target_prefix: ">>ita<< "
   translation_cache: /tmp/app-home/translation-cache/translations.sqlite3
 
+llm:
+  provider: local_transformers
+  model: Qwen/Qwen2.5-0.5B-Instruct
+  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  max_new_tokens: 384
+
 application:
   language: it
   source_review_language: pt
