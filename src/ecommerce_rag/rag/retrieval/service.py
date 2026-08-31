@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from datetime import date
+import gc
 from typing import Any, Dict, List, Optional
 
 from ecommerce_rag.rag.themes import ALL_THEMES
@@ -74,10 +75,22 @@ def build_where(filters: RetrievalFilters) -> Optional[Dict[str, Any]]:
 
 
 class ReviewRetriever:
-    def __init__(self, collection, embedder, translator=None):
+    def __init__(
+        self,
+        collection,
+        embedder,
+        translator=None,
+        *,
+        reranker=None,
+        candidate_k: int = 50,
+    ):
+        if candidate_k < 1:
+            raise ValueError("candidate_k must be positive")
         self.collection = collection
         self.embedder = embedder
         self.translator = translator
+        self.reranker = reranker
+        self.candidate_k = candidate_k
 
     def retrieve(
         self,
@@ -85,15 +98,18 @@ class ReviewRetriever:
         top_k: int = 5,
         filters: Optional[RetrievalFilters] = None,
         translate: bool = False,
+        use_reranker: bool = True,
     ) -> List[Dict[str, Any]]:
         if not question or not question.strip():
             raise ValueError("question must not be empty")
         if top_k < 1:
             raise ValueError("top_k must be positive")
+        rerank = use_reranker and self.reranker is not None
+        requested_candidates = max(top_k, self.candidate_k) if rerank else top_k
         selected = filters or RetrievalFilters()
         query = self.collection.query(
             query_embeddings=[self.embedder.embed_query(question.strip())],
-            n_results=top_k,
+            n_results=requested_candidates,
             where=build_where(selected),
             include=["documents", "metadatas", "distances"],
         )
@@ -102,9 +118,9 @@ class ReviewRetriever:
         metadatas = (query.get("metadatas") or [[]])[0]
         distances = (query.get("distances") or [[]])[0]
         results = []
-        for document_id, document, metadata, distance in zip(
+        for semantic_rank, (document_id, document, metadata, distance) in enumerate(zip(
             ids, documents, metadatas, distances
-        ):
+        ), start=1):
             metadata = metadata or {}
             item = {
                 "document_id": document_id,
@@ -115,9 +131,18 @@ class ReviewRetriever:
                 "metadata": metadata,
                 "distance": distance,
                 "similarity_score": 1.0 - distance,
+                "semantic_rank": semantic_rank,
+                "reranker_score": None,
+                "reranked_rank": None,
                 "translation": None,
             }
-            if translate:
+            results.append(item)
+        if rerank:
+            results = self.reranker.rerank(question.strip(), results, top_k)
+        else:
+            results = results[:top_k]
+        if translate:
+            for item in results:
                 if self.translator is None:
                     raise ValueError("translate=True requires a translator")
                 item["translation"] = self.translator.translate_review(
@@ -125,5 +150,18 @@ class ReviewRetriever:
                     item["title_original"],
                     item["message_original"],
                 )
-            results.append(item)
         return results
+
+    def release_models(self) -> None:
+        """Release sequential retrieval models before the local LLM is loaded."""
+        for component in (self.embedder, self.reranker, self.translator):
+            unload = getattr(component, "unload", None)
+            if unload is not None:
+                unload()
+        gc.collect()
+        try:
+            import ctypes
+
+            ctypes.CDLL("libc.so.6").malloc_trim(0)
+        except (AttributeError, OSError):
+            pass

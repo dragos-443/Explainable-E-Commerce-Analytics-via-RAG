@@ -7,8 +7,7 @@ import json
 from pathlib import Path
 
 from ecommerce_rag.common.config import load_config
-from ecommerce_rag.rag.embeddings.model import MultilingualE5Embedder
-from ecommerce_rag.rag.index import chroma_client, get_collection
+from ecommerce_rag.rag.retrieval.factory import build_review_retriever
 from ecommerce_rag.rag.retrieval.service import RetrievalFilters, ReviewRetriever
 from ecommerce_rag.rag.translation import CachedMarianTranslator
 
@@ -34,12 +33,6 @@ def main() -> None:
     args = parse_args()
     config = load_config(args.environment)
     rag = config["rag"]
-    embedder = MultilingualE5Embedder(
-        rag["embedding_model"],
-        rag["embedding_revision"],
-        passage_prefix=rag["passage_prefix"],
-        query_prefix=rag["query_prefix"],
-    )
     translator = None
     if args.translate:
         translator = CachedMarianTranslator(
@@ -56,9 +49,8 @@ def main() -> None:
         max_review_score=args.max_review_score,
         theme=args.theme,
     ).validated()
-    results = ReviewRetriever(
-        get_collection(chroma_client(config), config), embedder, translator
-    ).retrieve(
+    retriever = build_review_retriever(config, translator)
+    results = retriever.retrieve(
         args.question,
         top_k=args.top_k,
         filters=filters,
@@ -70,6 +62,11 @@ def main() -> None:
         "question_language": "it",
         "filters": filters.__dict__,
         "top_k": args.top_k,
+        "candidate_k": retriever.candidate_k,
+        "reranker": {
+            "model": rag["reranker_model"],
+            "revision": rag["reranker_revision"],
+        },
         "result_count": len(results),
         "results": results,
     }

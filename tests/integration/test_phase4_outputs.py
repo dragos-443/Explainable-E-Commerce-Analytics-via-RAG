@@ -49,10 +49,10 @@ def test_document_population_and_text_sources_reconcile(spark: SparkSession) -> 
 def test_theme_dataset_is_complete_versioned_and_unique(spark: SparkSession) -> None:
     themes = spark.read.parquet(f"{CURATED}/review_themes")
     documents = spark.read.parquet(f"{CURATED}/rag_documents")
-    assert themes.count() == 45_091
+    assert themes.count() == 43_405
     assert themes.groupBy("review_id", "theme").count().where("count > 1").count() == 0
     assert themes.select("review_id").distinct().count() == documents.count()
-    assert themes.select("classifier_version").distinct().first()[0] == "rules-pt-v2"
+    assert themes.select("classifier_version").distinct().first()[0] == "rules-pt-v3"
     assert {row.theme for row in themes.select("theme").distinct().collect()} >= {
         "non_delivery", "delivery_delay", "other", "uncertain"
     }
@@ -89,7 +89,7 @@ def test_chroma_population_and_title_only_documents() -> None:
     assert "Comment:" not in title_only["documents"][0]
     assert title_only["metadatas"][0]["document_id"] == title_only["ids"][0]
     assert title_only["metadatas"][0]["metadata_hash"]
-    assert title_only["metadatas"][0]["theme_classifier_version"] == "rules-pt-v2"
+    assert title_only["metadatas"][0]["theme_classifier_version"] == "rules-pt-v3"
 
 
 def test_idempotent_index_run_skips_every_unchanged_document() -> None:

@@ -12,12 +12,10 @@ from ecommerce_rag.analytics.engine import AnalyticsEngine
 from ecommerce_rag.analytics.theme_evidence import ThemeEvidenceEngine
 from ecommerce_rag.app.demo_cases import DEMO_CASES, get_demo_case, verify_demo_result
 from ecommerce_rag.common.config import load_config
-from ecommerce_rag.rag.embeddings.model import MultilingualE5Embedder
 from ecommerce_rag.rag.explanation_pipeline import ExplanationPipeline
-from ecommerce_rag.rag.index import chroma_client, get_collection
 from ecommerce_rag.rag.prompting.local_llm import LocalTransformersGenerator
 from ecommerce_rag.rag.question_interpreter import interpret_question
-from ecommerce_rag.rag.retrieval.service import ReviewRetriever
+from ecommerce_rag.rag.retrieval.factory import build_review_retriever
 from ecommerce_rag.rag.translation import CachedMarianTranslator
 
 
@@ -49,12 +47,6 @@ def main() -> None:
         analytics_engine = AnalyticsEngine(orders, reviews)
         overall_reference = analytics_engine.analyze(query_id="demo-overall-reference")
         rag = config["rag"]
-        embedder = MultilingualE5Embedder(
-            rag["embedding_model"],
-            rag["embedding_revision"],
-            passage_prefix=rag["passage_prefix"],
-            query_prefix=rag["query_prefix"],
-        )
         translator = CachedMarianTranslator(
             rag["translation_model"],
             rag["translation_revision"],
@@ -65,9 +57,7 @@ def main() -> None:
         pipeline = ExplanationPipeline(
             analytics_engine,
             ThemeEvidenceEngine(reviews, review_themes),
-            ReviewRetriever(
-                get_collection(chroma_client(config), config), embedder, translator
-            ),
+            build_review_retriever(config, translator),
             LocalTransformersGenerator(
                 llm["model"], llm["revision"], int(llm["max_new_tokens"])
             ),

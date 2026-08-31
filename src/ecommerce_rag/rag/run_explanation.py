@@ -11,12 +11,10 @@ from pyspark.sql import SparkSession
 from ecommerce_rag.analytics.engine import AnalyticsEngine
 from ecommerce_rag.analytics.theme_evidence import ThemeEvidenceEngine
 from ecommerce_rag.common.config import load_config
-from ecommerce_rag.rag.embeddings.model import MultilingualE5Embedder
 from ecommerce_rag.rag.explanation_pipeline import ExplanationPipeline
-from ecommerce_rag.rag.index import chroma_client, get_collection
 from ecommerce_rag.rag.prompting.local_llm import LocalTransformersGenerator
 from ecommerce_rag.rag.question_interpreter import SUPPORTED_INTENTS, interpret_question
-from ecommerce_rag.rag.retrieval.service import ReviewRetriever
+from ecommerce_rag.rag.retrieval.factory import build_review_retriever
 from ecommerce_rag.rag.translation import CachedMarianTranslator
 
 
@@ -64,12 +62,6 @@ def main() -> None:
         reviews = spark.read.parquet("{}/reviews_enriched".format(curated)).cache()
         review_themes = spark.read.parquet("{}/review_themes".format(curated)).cache()
         rag = config["rag"]
-        embedder = MultilingualE5Embedder(
-            rag["embedding_model"],
-            rag["embedding_revision"],
-            passage_prefix=rag["passage_prefix"],
-            query_prefix=rag["query_prefix"],
-        )
         translate = not args.no_translate
         translator = (
             CachedMarianTranslator(
@@ -88,9 +80,7 @@ def main() -> None:
         result = ExplanationPipeline(
             AnalyticsEngine(orders, reviews),
             ThemeEvidenceEngine(reviews, review_themes),
-            ReviewRetriever(
-                get_collection(chroma_client(config), config), embedder, translator
-            ),
+            build_review_retriever(config, translator),
             generator,
         ).run(
             question,

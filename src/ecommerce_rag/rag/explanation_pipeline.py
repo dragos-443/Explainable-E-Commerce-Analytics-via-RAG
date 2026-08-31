@@ -141,6 +141,9 @@ class ExplanationPipeline:
         evidence_per_theme: int = 2,
         translate: bool = True,
     ) -> Dict[str, Any]:
+        unload_generator = getattr(self.generator, "unload", None)
+        if unload_generator is not None:
+            unload_generator()
         filters = question.analytics_filters()
         analytics = self.analytics_engine.analyze(filters, query_id=query_id)
         themes = self.theme_engine.analyze(filters)
@@ -167,6 +170,9 @@ class ExplanationPipeline:
         raw_generation = None
         generation_attempts = []
         if reason is None:
+            release_models = getattr(self.retriever, "release_models", None)
+            if release_models is not None:
+                release_models()
             allowed_themes = [item["theme"] for item in context["ranked_theme_evidence"]]
             allowed_ids = [item["review_id"] for item in evidence]
             messages = build_messages(context)

@@ -1,0 +1,174 @@
+{
+  "schema_version": "1.2",
+  "annotation_protocol": {
+    "annotator_count": 1,
+    "judgment": "binary relevance",
+    "pooling": "complete union of semantic-only, metadata-plus-semantic, and metadata-plus-semantic-reranked top-5",
+    "positive_rule": "The original Portuguese review explicitly expresses the complaint requested by the Italian question and satisfies every category, state, period and score constraint.",
+    "negative_rule": "The review is off-topic, contradicts the request, is too ambiguous, or violates at least one constraint.",
+    "automatic_theme_labels_used_for_judgment": false
+  },
+  "relevant_ids": {
+    "non_delivery_general": [
+      "4966a0af44d9ad8f87d9263c8bacc9dc",
+      "4c2ab64ffc9119884d87d90bf9d630c3",
+      "8deb752bad6ec4f8e81d4bee4f370db2",
+      "7c8154d29d239b02ad0e8f2dcdf3261a",
+      "b28309e8253951a954123e039d3242f7",
+      "71ec22fa39d7c8cd3cc365296e7bc178",
+      "1aa8f6134b5f4b2a4b00161dccd44828"
+    ],
+    "office_furniture_delay": [
+      "e85fe5bf365daf490df3bd3813e89f39",
+      "833164c13e3b8b4d46ab310f3543bfdf",
+      "045d330f147f09c3bd2426266ec5d414"
+    ],
+    "damaged_product": [
+      "168863de0e60d3df41d90a063fba7f93",
+      "cb770d3c460119845882aa6a04606e56",
+      "6afb9abc15ff32b17abc8f3f819ade1f",
+      "778826f9af6467ff6268bbcf436cd3c5"
+    ],
+    "wrong_product": [
+      "014552bc1539eed96d4937a07ef1ba03",
+      "6b48d00c41470b7046e7ded50326d1c9",
+      "b350f1b9ce136bb7ccb02ac6398106fb",
+      "c94fe7161f7932281babee672d4b4248",
+      "ed19d7f5da6c2c6d4d79f4ec2425f63f",
+      "c099aafb6db35704451859b711b53425",
+      "6137736e63c63b146f3012dd3419e657",
+      "8eb61fc560a7479dfe176b8ef1ccfbfa",
+      "6f97d8b5afaf78f8658cfc0634840b40",
+      "374ff0f46ff482b92a8794eda1c7c47f"
+    ],
+    "refund_missing": [
+      "f80371a14c76eb84cd44b8767812544e",
+      "981c2269f16246ed60fb6b5b570f1024"
+    ],
+    "poor_quality": [
+      "2c95346184cc63f95c77f0253817a591",
+      "3512ff1323c91ab59f353443105d7cf8",
+      "802ce6588b4e35e73e7e47fb0a5b538e",
+      "b509bc7debfe2738d062146b9d43b096",
+      "54c5f5cb6ad288f6825511c37dab63ca",
+      "55505b569f79dc826cf7de4e29e0fdf0",
+      "0dc592136d4b2753628f84a5cffcdd9c",
+      "b12ecc5278a6196182f5c4ffe1a4973e",
+      "9608ca40258158e77a6a83b33f30ada6"
+    ],
+    "bed_bath_missing_parts": [
+      "9e7027584b883a566624bda9af024c78",
+      "bcf1f7d1fdf796f91d59cdfab8798d7a",
+      "5b69543fbc57c21a7935d7b849d89322",
+      "4a8d739553fd90d040bda4572aab5bbf",
+      "1472f49960a8c354feaa6201c9c16dea",
+      "2e3a02fc80a0d4222a4c9817a4180016"
+    ],
+    "computer_defective": [
+      "16542dee3cb122659e9ef33431f5f4a6",
+      "2015db117969611f3b471e50385a90e2",
+      "803b03abd2372308b85988608e895d3d",
+      "bf04cefb8f9cac1da1988498fb888ad9",
+      "dd093426fbb6f0b57411d21c0423a5c0",
+      "3eedb3f816f188fa1928d07b3efd9d82",
+      "06f44964e1e024d7772ae766434e88fa",
+      "3479b109d365da65ca7f35045bc96868",
+      "9325dc8071e925fe198df567ad98a265",
+      "693507f76c4fb85033d9ff4366e3a6dc"
+    ],
+    "late_delivery_sp": [
+      "108195606e37780c4335f0725c4c7e3e",
+      "da019fba5d8be9427b00678f9cc80f51",
+      "f02d4978f58368f3346d8450d52f0ba2",
+      "a1074ef6728469383f2a8bf58fd98e51",
+      "b91ec4b047be78b2822cf8aaf61bf024",
+      "25317866bc04a5e3514e4a86adbaa9c6"
+    ],
+    "cancel_refund": [
+      "679908e3991c84ed3c7fb0bd5bcac33e",
+      "f8520bfca96df761faec14a2937e7075"
+    ],
+    "furniture_not_as_photo": [
+      "323ed96df39bd0d9fb54c0f7092e689b",
+      "9b3c0998e6c9cf7d5e927bfbe6f2f045",
+      "fc79193a78585c765288d1c233c81051",
+      "b4f1cee548fca64f9edaa02b285308ce",
+      "79a7da2bfdd677babad967ae4f6cc46c",
+      "51533acfb4fcd3a80f17c0537668c2cf",
+      "048eff7f562e1d70b62810ce9cac517c"
+    ],
+    "broken_watch": [
+      "b1215b7be082fef3dd617160eeb991d5",
+      "5daed8162373d5914d7873de82d86355",
+      "810e185ae9a3f28e28b7e71c2f301ac6"
+    ],
+    "health_beauty_missing_item": [
+      "f62e21bd38a4ec9d8db698fb82f5faa4",
+      "af01feb1cdea736410d350c65e657e04",
+      "0afdaef42f4cef6492069412f42443d3",
+      "a7ff73bc13eef2736b95d913a11b6f48",
+      "2275289f8c8b766d77b1d501f40a93cb"
+    ],
+    "sports_non_delivery": [
+      "343c75b23341ab7a22e874d9bcf803ee",
+      "36ad6edf206cc33e3c28717f38bae8d9",
+      "aed28228cab25f2cbc325e1d755155a3",
+      "cfeedaa7fa830ea511194cbfd3ac0373",
+      "cbc6f7cd85fd98b26a724ccb2e9c74b2",
+      "ff5d51348b36d109744c450c509f5270",
+      "f9fe37d91c506b29a0b4d9107f667bde",
+      "efb0886cab0e624dbafaebbdc9b58a65"
+    ],
+    "support_no_response": [
+      "01206bbbfcfe2d85dc0c646a8ddb73d4",
+      "8cecdf29b454546b63f5adcec4f8746a",
+      "b738a3631bdb181519f3a9387833bc1d",
+      "d6a5ec076e4c05013876308faf6cdc8b",
+      "f5073b007d91b31d2153ae7f6452b651",
+      "07bda9a8f3c45c5010fab2651003fd96"
+    ],
+    "march_2018_delay": [
+      "4c9308a7dc00c4e59f85b06ca8f34b70",
+      "5b357b7623dc2bcf4ac89378b054c2e5",
+      "8865969b57001ecdf1e67b27f46e4a89",
+      "b6cd48902c1c5a93fb7cc4a63f1dae83",
+      "f185ea476e495b944320aa2ea96c4ae4",
+      "8a3a5868150b304bbe274ff108771a2e",
+      "14cf2de9e9dedefd915cf9f6c7a3d692",
+      "970bd1fd0482b3e0e15769800de6a7a5",
+      "0e5b8e7563cf9693ea9043d42c81a09e",
+      "19c8218a64491d924ba8e1c0474accea"
+    ],
+    "housewares_bad_material": [
+      "020d4d516c96d896641dd6faa5325160",
+      "3512ff1323c91ab59f353443105d7cf8",
+      "6f112dbce323fb891889b5ed1d1df783",
+      "acd3cf00b155fe49af384b283655ea4b",
+      "c3299867b627758579839697206433a8",
+      "eb508a1736bce043a9ca1759567e89d9",
+      "b743c304432494c0599e5992c6c70a73",
+      "fffd68e8a9fb73a56a2f504011b0f1f1",
+      "7f45121d39a6318dff3f2fef124e542a"
+    ],
+    "incomplete_order": [
+      "8341c8e936454d7de07e3c4e0381057d",
+      "2d6ac45f859465b5c185274a1c929637",
+      "f0b8a0026b6c510825eef1286f2b27a5",
+      "fb7a20b2ddddef07d278997e18e1cd16",
+      "5148ad2bdca65375e9504355d79c6ad4",
+      "c7c623cd643523c4f570e2358dec9e61"
+    ],
+    "money_not_returned": [
+      "a765ade5a94437b1d9dd9969f30149f2",
+      "f7c4ece51a1f0f3ebf9a67db7df64036",
+      "931ca2b73c9eda0996ee23bfb16a106e",
+      "9ecb6d55d9eb141673ed721d96300722"
+    ],
+    "office_furniture_non_delivery": [
+      "319a00108e04fc59298abd67b599b264",
+      "c88aa8d95d1096c2859b67d46bed0bc5",
+      "ecd8631058ae1b6118ba6ac255f2b6fd",
+      "5914714c08935047ca6790f270d79f95"
+    ]
+  }
+}

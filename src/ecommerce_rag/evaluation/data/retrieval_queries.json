@@ -1,0 +1,122 @@
+[
+  {
+    "query_id": "non_delivery_general",
+    "question_it": "Quali recensioni segnalano che il cliente non ha mai ricevuto il proprio ordine?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "office_furniture_delay",
+    "question_it": "Quali recensioni segnalano ritardi nella consegna di mobili per ufficio rispetto al termine previsto?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "office_furniture", "max_review_score": 2}
+  },
+  {
+    "query_id": "damaged_product",
+    "question_it": "Quali recensioni segnalano un prodotto arrivato rotto o danneggiato?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "wrong_product",
+    "question_it": "Quali recensioni segnalano la consegna di un prodotto diverso da quello ordinato?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "refund_missing",
+    "question_it": "Quali recensioni segnalano un rimborso richiesto ma non ricevuto?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "poor_quality",
+    "question_it": "Quali recensioni segnalano una qualità del prodotto pessima o inferiore alle aspettative?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "bed_bath_missing_parts",
+    "question_it": "Quali recensioni segnalano prodotti per la casa arrivati incompleti o con pezzi mancanti?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "bed_bath_table", "max_review_score": 2}
+  },
+  {
+    "query_id": "computer_defective",
+    "question_it": "Quali recensioni segnalano accessori per computer difettosi o non funzionanti?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "computers_accessories", "max_review_score": 2}
+  },
+  {
+    "query_id": "late_delivery_sp",
+    "question_it": "Quali recensioni dello stato di San Paolo segnalano forti ritardi nella consegna?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"customer_state": "SP", "max_review_score": 2}
+  },
+  {
+    "query_id": "cancel_refund",
+    "question_it": "Quali recensioni segnalano che, dopo la cancellazione dell'ordine, il rimborso non è arrivato?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "furniture_not_as_photo",
+    "question_it": "Quali recensioni segnalano mobili ricevuti diversi dalla foto o dalla descrizione?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "furniture_decor", "max_review_score": 2}
+  },
+  {
+    "query_id": "broken_watch",
+    "question_it": "Quali recensioni segnalano orologi arrivati rotti o non funzionanti?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "watches_gifts", "max_review_score": 2}
+  },
+  {
+    "query_id": "health_beauty_missing_item",
+    "question_it": "Quali recensioni segnalano articoli mancanti nei pacchi di prodotti di bellezza?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "health_beauty", "max_review_score": 2}
+  },
+  {
+    "query_id": "sports_non_delivery",
+    "question_it": "Quali recensioni segnalano ordini di articoli sportivi mai consegnati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "sports_leisure", "max_review_score": 2}
+  },
+  {
+    "query_id": "support_no_response",
+    "question_it": "Quali recensioni segnalano che il servizio clienti non risponde e non risolve il problema?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "march_2018_delay",
+    "question_it": "Quali recensioni di marzo 2018 segnalano ritardi rispetto alla data di consegna promessa?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"start_month": "2018-03", "end_month": "2018-03", "max_review_score": 2}
+  },
+  {
+    "query_id": "housewares_bad_material",
+    "question_it": "Quali recensioni segnalano articoli per la casa realizzati con materiali di qualità molto scarsa?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "housewares", "max_review_score": 2}
+  },
+  {
+    "query_id": "incomplete_order",
+    "question_it": "Quali recensioni segnalano ordini arrivati incompleti o con parte della merce mancante?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "money_not_returned",
+    "question_it": "Quali recensioni segnalano che il negozio non ha restituito i soldi richiesti?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"max_review_score": 2}
+  },
+  {
+    "query_id": "office_furniture_non_delivery",
+    "question_it": "Quali recensioni segnalano mobili per ufficio ordinati ma mai arrivati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "office_furniture", "max_review_score": 2}
+  }
+]

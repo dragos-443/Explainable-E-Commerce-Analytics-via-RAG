@@ -45,3 +45,6 @@ class MultilingualE5Embedder:
 
     def embed_query(self, text: str) -> List[float]:
         return self._encode([self.query_prefix + text])[0]
+
+    def unload(self) -> None:
+        self._model = None

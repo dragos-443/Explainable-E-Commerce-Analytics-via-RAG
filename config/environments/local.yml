@@ -29,7 +29,12 @@ rag:
   distance_metric: cosine
   passage_prefix: "passage: "
   query_prefix: "query: "
-  theme_classifier_version: rules-pt-v2
+  retrieval_candidate_k: 50
+  reranker_model: cross-encoder/mmarco-mMiniLMv2-L12-H384-v1
+  reranker_revision: d4be7629a38de7d68378c2f0de8d7ddd8cd756dd
+  reranker_batch_size: 16
+  reranker_max_length: 512
+  theme_classifier_version: rules-pt-v3
   translation_model: Helsinki-NLP/opus-mt-tc-big-itc-itc
   translation_revision: a185ba7b3cac07bbd692dd517577b8c2dc7abb2c
   translation_target_prefix: ">>ita<< "

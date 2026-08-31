@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import gc
 from typing import Dict, List
 
 
@@ -49,3 +50,14 @@ class LocalTransformersGenerator:
             )
         generated = output[0][inputs["input_ids"].shape[1] :]
         return self._tokenizer.decode(generated, skip_special_tokens=True).strip()
+
+    def unload(self) -> None:
+        self._model = None
+        self._tokenizer = None
+        gc.collect()
+        try:
+            import ctypes
+
+            ctypes.CDLL("libc.so.6").malloc_trim(0)
+        except (AttributeError, OSError):
+            pass

@@ -166,3 +166,7 @@ class CachedMarianTranslator:
                 "status": "failed_original_available",
                 "error": "{}: {}".format(type(error).__name__, error),
             }
+
+    def unload(self) -> None:
+        self._model = None
+        self._tokenizer = None

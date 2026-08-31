@@ -68,6 +68,35 @@ def test_delivery_delay_ignores_on_time_wording(spark: SparkSession) -> None:
     assert grouped["late"] == {"delivery_delay", "non_delivery"}
 
 
+def test_theme_classifier_v3_uses_context_and_positive_fallback(
+    spark: SparkSession,
+) -> None:
+    reviews = spark.createDataFrame(
+        [
+            ("positive-quality", 5, "Produto de qualidade, recomendo", True),
+            ("positive-service", 5, "Excelente atendimento, tudo certo", True),
+            ("not-tested", 4, "Ainda não testei o produto, entrega rápida", True),
+            ("wrong", 1, "Fiz um pedido e recebi outro totalmente diferente", True),
+            ("refund", 1, "Pedi reembolso e até agora não recebi o dinheiro", True),
+            ("broken", 1, "O produto chegou quebrado e já postei devolvendo", True),
+        ],
+        ["review_id", "review_score", "review_text", "text_is_eligible"],
+    )
+    grouped = {}
+    for row in classify_review_themes(reviews, "rules-pt-v3").collect():
+        grouped.setdefault(row.review_id, set()).add(row.theme)
+
+    assert grouped["positive-quality"] == {"other"}
+    assert grouped["positive-service"] == {"other"}
+    assert grouped["not-tested"] == {"other"}
+    assert grouped["wrong"] == {"wrong_or_missing_item"}
+    assert grouped["refund"] == {"service_or_refund"}
+    assert grouped["broken"] == {
+        "damaged_or_defective",
+        "service_or_refund",
+    }
+
+
 def test_documents_preserve_title_only_and_ambiguous_metadata(
     spark: SparkSession,
 ) -> None:
@@ -139,6 +168,7 @@ class FakeCollection:
     def __init__(self):
         self.records = {}
         self.last_where = None
+        self.last_n_results = None
 
     def get(self, limit, offset, include):
         ids = sorted(self.records)[offset : offset + limit]
@@ -162,6 +192,7 @@ class FakeCollection:
 
     def query(self, query_embeddings, n_results, where, include):
         self.last_where = where
+        self.last_n_results = n_results
         return {
             "ids": [["r1"]],
             "documents": [["Comment: Não chegou"]],
@@ -229,6 +260,87 @@ def test_retrieval_combines_metadata_filters_and_translation() -> None:
     assert result[0]["document_original"] == "Comment: Não chegou"
     assert result[0]["translation"]["message"] == "Non è arrivato"
     assert result[0]["similarity_score"] == pytest.approx(0.9)
+
+
+def test_retrieval_fetches_candidates_reranks_and_translates_only_final_results() -> None:
+    class CandidateCollection(FakeCollection):
+        def query(self, query_embeddings, n_results, where, include):
+            self.last_n_results = n_results
+            self.last_where = where
+            return {
+                "ids": [["r1", "r2", "r3"]],
+                "documents": [["first", "second", "third"]],
+                "metadatas": [[
+                    {"review_id": "r1", "original_message": "first"},
+                    {"review_id": "r2", "original_message": "second"},
+                    {"review_id": "r3", "original_message": "third"},
+                ]],
+                "distances": [[0.1, 0.2, 0.3]],
+            }
+
+    class ReverseReranker:
+        def __init__(self):
+            self.candidate_count = None
+
+        def rerank(self, question, candidates, top_k):
+            self.candidate_count = len(candidates)
+            selected = list(reversed(candidates))[:top_k]
+            for rank, item in enumerate(selected, start=1):
+                item["reranker_score"] = float(10 - rank)
+                item["reranked_rank"] = rank
+            return selected
+
+    class CountingTranslator(FakeTranslator):
+        def __init__(self):
+            self.calls = 0
+
+        def translate_review(self, review_id, title, message):
+            self.calls += 1
+            return super().translate_review(review_id, title, message)
+
+    collection = CandidateCollection()
+    reranker = ReverseReranker()
+    translator = CountingTranslator()
+    results = ReviewRetriever(
+        collection,
+        FakeEmbedder(),
+        translator,
+        reranker=reranker,
+        candidate_k=50,
+    ).retrieve("question", top_k=2, translate=True)
+
+    assert collection.last_n_results == 50
+    assert reranker.candidate_count == 3
+    assert [item["review_id"] for item in results] == ["r3", "r2"]
+    assert [item["semantic_rank"] for item in results] == [3, 2]
+    assert [item["reranked_rank"] for item in results] == [1, 2]
+    assert translator.calls == 2
+
+
+def test_retrieval_models_can_be_released_before_llm_generation() -> None:
+    class Unloadable:
+        def __init__(self):
+            self.unloaded = False
+
+        def unload(self):
+            self.unloaded = True
+
+    embedder = Unloadable()
+    reranker = Unloadable()
+    translator = Unloadable()
+    retriever = ReviewRetriever(
+        FakeCollection(),
+        embedder,
+        translator,
+        reranker=reranker,
+        candidate_k=50,
+    )
+
+    retriever.release_models()
+
+    assert embedder.unloaded is True
+    assert reranker.unloaded is True
+    assert translator.unloaded is True
 
 
 def test_translation_cache_preserves_missing_fields(tmp_path) -> None:

@@ -1,0 +1,86 @@
+{
+  "schema_version": "1.0",
+  "annotation_protocol": {
+    "annotator_count": 1,
+    "method": "manual multi-label review of the original Portuguese text",
+    "labels": [
+      "non_delivery",
+      "delivery_delay",
+      "wrong_or_missing_item",
+      "damaged_or_defective",
+      "quality_or_expectation",
+      "service_or_refund",
+      "other",
+      "uncertain"
+    ],
+    "other_rule": "Use for a sufficiently clear text with no complaint in the six substantive classes, including clear positive feedback.",
+    "uncertain_rule": "Use only when the text is too ambiguous or unintelligible to determine its meaning.",
+    "multilabel_rule": "Assign every independently expressed complaint; do not force labels to be exclusive.",
+    "automatic_predictions_visible_during_annotation": false,
+    "limitation": "Single-annotator evaluation; no inter-annotator agreement is available."
+  },
+  "sample_selection": {
+    "size": 48,
+    "rule": "Six deterministic non-overlapping examples per rules-pt-v3 predicted stratum, with predictions and stratum hidden during annotation.",
+    "seed": "phase7-v3-holdout",
+    "prior_examples_excluded": 48,
+    "limitation": "Stratification guarantees label-prediction coverage but is not a prevalence-weighted random sample of the corpus."
+  },
+  "manual_themes": {
+    "253c1413b2b550b3799ee9b7f53ed20f": ["delivery_delay", "non_delivery"],
+    "b5e71e87bfbbcd2a826b9610bac99680": ["delivery_delay", "non_delivery", "service_or_refund"],
+    "cb0afd21795569cda373d39c5a0ca502": ["non_delivery"],
+    "2ece7aaca12d1d8437afaa8cc7cd3e9b": ["non_delivery"],
+    "a6b0a15e1bd9a39d4b8ebca93d0d0e40": ["non_delivery", "service_or_refund"],
+    "66ee705809e0b18dd051d8ad86df5972": ["other"],
+
+    "1b1e5f1d88e57166e35cb6cc9c489006": ["delivery_delay"],
+    "be3db85fbf93c6d04f28a20788c55ecb": ["delivery_delay"],
+    "22fc75395a6d93708119e86955b8ae81": ["delivery_delay"],
+    "b16d528a370bd6520af22b90107414ea": ["delivery_delay"],
+    "66f3a5fb406fe58189a5a9611ca66dc9": ["delivery_delay", "non_delivery"],
+    "ddf396c64530f633e96ba1546d16d604": ["other"],
+
+    "7f0c475e762115452c497ae93d9909c1": ["quality_or_expectation"],
+    "996d65693686ef6879f8c3bdd0f1768c": ["service_or_refund", "wrong_or_missing_item"],
+    "7624d3db91b34b9b9c1e8e49a95447b2": ["wrong_or_missing_item"],
+    "2af448a007358e797cbc5a0aa353bc14": ["service_or_refund", "wrong_or_missing_item"],
+    "c343e22f0398de5be948cf578a37af6c": ["damaged_or_defective"],
+    "4dfce25d6d9151a801d21d4399f9b32b": ["service_or_refund", "wrong_or_missing_item"],
+
+    "abb6136be971d03feb72019ff59767e4": ["damaged_or_defective", "wrong_or_missing_item"],
+    "f9ba06254a37b72b3b3497bf0ccc854c": ["damaged_or_defective", "service_or_refund"],
+    "51cb7a022270ee2cf06562324a0ef7cc": ["damaged_or_defective", "service_or_refund", "wrong_or_missing_item"],
+    "1e7897e5c0be119f7e491619b1d612e9": ["other"],
+    "def421df8f5ebc8afc5b1f88799903df": ["damaged_or_defective"],
+    "f33188c23a0a923d82e2100408fb47f3": ["damaged_or_defective", "service_or_refund"],
+
+    "846fd75576354e54fcd108914d47922d": ["quality_or_expectation"],
+    "8ee5e0d1731045fab5b76f23822f9121": ["quality_or_expectation"],
+    "9784246ed1d38ebf425d73c444c1fcd3": ["quality_or_expectation"],
+    "ea2b24411e2c17df45c337fa81188115": ["damaged_or_defective", "quality_or_expectation"],
+    "5193a01c7a8f65e318891228e8967c49": ["quality_or_expectation"],
+    "3332e2ed36e60598f2ba41afcb002e3d": ["quality_or_expectation"],
+
+    "54b8a270796ea170b5d7af617c61859c": ["delivery_delay", "non_delivery", "service_or_refund"],
+    "ee70aecf525483335f848f8189c05dc4": ["non_delivery", "service_or_refund"],
+    "36bb268397d3a167a539d732524378a1": ["non_delivery", "service_or_refund"],
+    "8dc162301c12fa14fef64b6a6fbdbd76": ["delivery_delay", "non_delivery", "service_or_refund"],
+    "26b5f1042cef33e1d46be7806ef39250": ["service_or_refund"],
+    "5a264eb4d6395b924011de41666451d6": ["service_or_refund", "wrong_or_missing_item"],
+
+    "29255d7dbc4189970c11c89f01a0e7e2": ["service_or_refund", "wrong_or_missing_item"],
+    "69ad428bcd1353001bf4b1726406b323": ["other"],
+    "c6c22be528c6ccc8c94f702c86c1d297": ["other"],
+    "ee25a7c0fe6b8dbcf8d28700e0d6271b": ["other"],
+    "ca8da5230ae7af44d96b5b6d64b8340a": ["other"],
+    "f0a1163d7b274827e0a235a6c6100b6f": ["other"],
+
+    "b6ecf5d780fc5576951e1d3d6ecaf979": ["other"],
+    "ae675246e4e07b84d3e47292ca1c10fd": ["other"],
+    "be4697684b53734ed8b8e25329a7d2b2": ["other"],
+    "8d170d150a4265f125efcf8456be6b15": ["other"],
+    "0e6f865205759d4623c8a72ff5e5199f": ["other"],
+    "4b6c347a98265dac70d1ea88c3549e7a": ["other"]
+  }
+}

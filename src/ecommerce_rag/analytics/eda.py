@@ -101,7 +101,12 @@ def classify_complaint_themes(reviews: DataFrame) -> DataFrame:
             & F.col("text_is_eligible")
         )
         .withColumn("normalized_review_text", normalized_review_text())
-        .withColumn("complaint_themes", complaint_theme_array())
+        # Preserve the exploratory Phase 2 baseline; the production classifier
+        # was improved and versioned separately during Phase 7.
+        .withColumn(
+            "complaint_themes",
+            complaint_theme_array(classifier_version="rules-pt-v2"),
+        )
     )
 
 

@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "annotation_protocol": {
+    "annotator_count": 1,
+    "generation_scale": "1 (poor) to 5 (excellent)",
+    "translation_scale": "1 (meaning substantially changed) to 5 (faithful and natural)",
+    "translation_acceptability_threshold": 3,
+    "limitations": "Single-annotator pilot; no reference translations and no inter-annotator agreement."
+  },
+  "generation": {
+    "logistics_march_2018": {"groundedness": 5, "correctness": 5, "answer_relevance": 4, "clarity": 4, "note": "Fully grounded, but the controlled synthesis is intentionally terse."},
+    "office_furniture_product_issues": {"groundedness": 5, "correctness": 5, "answer_relevance": 4, "clarity": 4, "note": "Correct evidence and limits; synthesis is less expressive than the deterministic observations."},
+    "overall_complaint_analysis": {"groundedness": 5, "correctness": 5, "answer_relevance": 4, "clarity": 4, "note": "Correct ranking and citations with conservative prose."},
+    "order_volume_insufficient": {"groundedness": 5, "correctness": 5, "answer_relevance": 5, "clarity": 5, "note": "Correctly refuses a review-based explanation and does not invoke the LLM."}
+  },
+  "translations": {
+    "1ce9388b1a3ad76f5f1a64f208a90fce": {"fidelity": 4, "negation_preserved": true, "dates_quantities_preserved": true, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Faithful but slightly literal Italian."},
+    "6ac48f6b99cdced66e3a0b027e381e98": {"fidelity": 5, "negation_preserved": true, "dates_quantities_preserved": true, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Non-delivery, location and date are preserved."},
+    "14cf2de9e9dedefd915cf9f6c7a3d692": {"fidelity": 4, "negation_preserved": true, "dates_quantities_preserved": true, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Postada is rendered as pubblicato rather than spedito, but the complaint remains intact."},
+    "970bd1fd0482b3e0e15769800de6a7a5": {"fidelity": 3, "negation_preserved": true, "dates_quantities_preserved": true, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "The opening statement about the long delay is omitted; dates and non-delivery remain."},
+    "c04fd11d96ca96f3fda80b3d330f12de": {"fidelity": 3, "negation_preserved": true, "dates_quantities_preserved": true, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Core non-delivery is preserved, while the customer-service clause is awkward."},
+    "9e7027584b883a566624bda9af024c78": {"fidelity": 3, "negation_preserved": null, "dates_quantities_preserved": null, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "A likely source typo is translated literally as brutta, but missing parts remains clear."},
+    "38906e7be876bb865ed0ca3238d140fa": {"fidelity": 4, "negation_preserved": true, "dates_quantities_preserved": true, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Three chairs and lack of response are preserved; wording about missing pieces is imperfect."},
+    "ba99c73cdfb4cac0b65aecc0d94787bb": {"fidelity": 3, "negation_preserved": true, "dates_quantities_preserved": null, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Nem satisfação is translated too literally, but non-delivery is preserved."},
+    "e9900aab8cd7d3235400acefceab61c5": {"fidelity": 5, "negation_preserved": null, "dates_quantities_preserved": null, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Wrong color, damage, dirt and return request are all preserved."},
+    "27c9ec0a5cb8ef59c48b2f042d31ce2e": {"fidelity": 5, "negation_preserved": true, "dates_quantities_preserved": true, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Product mismatch and chair defects are faithfully preserved."},
+    "b738a3631bdb181519f3a9387833bc1d": {"fidelity": 4, "negation_preserved": true, "dates_quantities_preserved": null, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "The update-request phrase is literal, but non-delivery and resolution difficulty remain."},
+    "f495b89455116ac326d54a32ee939a00": {"fidelity": 5, "negation_preserved": true, "dates_quantities_preserved": null, "complaint_subject_preserved": true, "overall_meaning_preserved": true, "note": "Faithful preservation of non-delivery and lack of explanation."}
+  }
+}
