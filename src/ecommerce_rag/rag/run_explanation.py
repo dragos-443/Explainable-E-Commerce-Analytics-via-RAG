@@ -12,8 +12,12 @@ from ecommerce_rag.analytics.engine import AnalyticsEngine
 from ecommerce_rag.analytics.theme_evidence import ThemeEvidenceEngine
 from ecommerce_rag.common.config import load_config
 from ecommerce_rag.rag.explanation_pipeline import ExplanationPipeline
-from ecommerce_rag.rag.prompting.local_llm import LocalTransformersGenerator
-from ecommerce_rag.rag.question_interpreter import SUPPORTED_INTENTS, interpret_question
+from ecommerce_rag.rag.prompting.local_llm import build_generator
+from ecommerce_rag.rag.question_interpreter import (
+    SUPPORTED_INTENTS,
+    SUPPORTED_REQUESTED_THEMES,
+    interpret_question,
+)
 from ecommerce_rag.rag.retrieval.factory import build_review_retriever
 from ecommerce_rag.rag.translation import CachedMarianTranslator
 
@@ -25,6 +29,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--query-id", default="grounded-explanation")
     parser.add_argument("--intent", choices=SUPPORTED_INTENTS)
     parser.add_argument("--metric")
+    parser.add_argument("--requested-theme", choices=SUPPORTED_REQUESTED_THEMES)
     parser.add_argument("--product-category")
     parser.add_argument("--customer-state")
     parser.add_argument("--start-month")
@@ -45,6 +50,7 @@ def main() -> None:
         args.question,
         intent=args.intent,
         metric=args.metric,
+        requested_theme=args.requested_theme,
         category=args.product_category,
         customer_state=args.customer_state,
         start_month=args.start_month,
@@ -74,9 +80,7 @@ def main() -> None:
             else None
         )
         llm = config["llm"]
-        generator = LocalTransformersGenerator(
-            llm["model"], llm["revision"], int(llm["max_new_tokens"])
-        )
+        generator = build_generator(llm)
         result = ExplanationPipeline(
             AnalyticsEngine(orders, reviews),
             ThemeEvidenceEngine(reviews, review_themes),
@@ -90,9 +94,9 @@ def main() -> None:
             translate=translate,
         )
         result["llm"] = {
-            "provider": llm["provider"],
-            "model": llm["model"],
-            "revision": llm["revision"],
+            "provider": result["llm_backend"]["provider"],
+            "model": result["llm_backend"]["model"],
+            "revision": llm.get("revision"),
         }
         output = Path(args.output_root) / "{}.json".format(args.query_id)
         output.parent.mkdir(parents=True, exist_ok=True)

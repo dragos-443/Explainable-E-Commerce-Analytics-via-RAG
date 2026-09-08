@@ -4,7 +4,11 @@ param(
         'logistics_march_2018',
         'office_furniture_product_issues',
         'overall_complaint_analysis',
-        'order_volume_insufficient'
+        'order_volume_insufficient',
+        'bed_bath_table_quality',
+        'electronics_defects',
+        'small_appliances_wrong_or_missing',
+        'office_furniture_service_refund'
     )]
     [string]$CaseId
 )

@@ -21,6 +21,7 @@ chroma:
   collection: olist_reviews_e5_v1
 
 rag:
+  translation_provider: local
   collection_version: "1"
   embedding_model: intfloat/multilingual-e5-small
   embedding_revision: 614241f622f53c4eeff9890bdc4f31cfecc418b3
@@ -41,10 +42,17 @@ rag:
   translation_cache: /tmp/app-home/translation-cache/translations.sqlite3
 
 llm:
-  provider: local_transformers
-  model: Qwen/Qwen2.5-0.5B-Instruct
-  revision: 7ae557604adf67be50417f59c2c2f167def9a775
+  provider: ollama
+  base_url: http://ollama:11434
+  model: qwen2.5:1.5b-instruct-q4_K_M
   max_new_tokens: 384
+  timeout_seconds: 300
+  keep_alive: "0"
+  openai_api_url: https://api.openai.com/v1/responses
+  openai_model: gpt-5.6-terra
+  openai_reasoning_effort: none
+  openai_max_output_tokens: 256
+  openai_timeout_seconds: 60
 
 application:
   language: it

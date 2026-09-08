@@ -6,6 +6,9 @@ PyYAML==6.0.2
 requests==2.32.3
 pytest==8.3.5
 matplotlib==3.7.5
+streamlit==1.40.1
+packaging==24.2
+rich==13.9.4
 --extra-index-url https://download.pytorch.org/whl/cpu
 torch==2.4.1+cpu
 transformers==4.46.3

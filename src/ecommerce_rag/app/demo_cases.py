@@ -13,6 +13,7 @@ class DemoCase:
     kind: str
     question: str
     expected_intent: str
+    expected_theme: Optional[str] = None
     category: Optional[str] = None
     start_month: Optional[str] = None
     end_month: Optional[str] = None
@@ -61,8 +62,62 @@ DEMO_CASES: Tuple[DemoCase, ...] = (
 )
 
 
+THEMATIC_EXAMPLE_CASES: Tuple[DemoCase, ...] = (
+    DemoCase(
+        case_id="bed_bath_table_quality",
+        title="Qualità dei prodotti per letto, bagno e tavola",
+        kind="thematic_focus",
+        question=(
+            "Quali problemi di qualità emergono nelle recensioni negative "
+            "dei prodotti per letto, bagno e tavola?"
+        ),
+        expected_intent="analyze_low_rating_complaints",
+        expected_theme="quality_or_expectation",
+        category="bed_bath_table",
+    ),
+    DemoCase(
+        case_id="electronics_defects",
+        title="Prodotti elettronici danneggiati o difettosi",
+        kind="thematic_focus",
+        question=(
+            "Quali difetti vengono segnalati nelle recensioni negative "
+            "dei prodotti di elettronica?"
+        ),
+        expected_intent="analyze_low_rating_complaints",
+        expected_theme="damaged_or_defective",
+        category="electronics",
+    ),
+    DemoCase(
+        case_id="small_appliances_wrong_or_missing",
+        title="Piccoli elettrodomestici errati o incompleti",
+        kind="thematic_focus",
+        question=(
+            "Quali articoli errati o mancanti vengono segnalati nelle recensioni "
+            "negative dei piccoli elettrodomestici?"
+        ),
+        expected_intent="analyze_low_rating_complaints",
+        expected_theme="wrong_or_missing_item",
+        category="small_appliances",
+    ),
+    DemoCase(
+        case_id="office_furniture_service_refund",
+        title="Assistenza e rimborsi per i mobili da ufficio",
+        kind="thematic_focus",
+        question=(
+            "Quali problemi di assistenza o rimborso emergono nelle recensioni "
+            "negative dei mobili per ufficio?"
+        ),
+        expected_intent="analyze_low_rating_complaints",
+        expected_theme="service_or_refund",
+        category="office_furniture",
+    ),
+)
+
+APP_EXAMPLE_CASES: Tuple[DemoCase, ...] = DEMO_CASES + THEMATIC_EXAMPLE_CASES
+
+
 def get_demo_case(case_id: str) -> DemoCase:
-    for case in DEMO_CASES:
+    for case in APP_EXAMPLE_CASES:
         if case.case_id == case_id:
             return case
     raise ValueError("Unknown demo case: {}".format(case_id))
@@ -93,6 +148,14 @@ def verify_demo_result(
             question["intent"] == case.expected_intent,
             question["intent"],
             case.expected_intent,
+        )
+    )
+    checks.append(
+        _check(
+            "requested_theme",
+            question.get("requested_theme") == case.expected_theme,
+            question.get("requested_theme"),
+            str(case.expected_theme),
         )
     )
     checks.append(
@@ -137,20 +200,32 @@ def verify_demo_result(
                     "sufficient evidence",
                 ),
                 _check(
-                    "validated_llm",
+                    (
+                        "validated_generation"
+                        if case.kind == "thematic_focus"
+                        else "validated_llm"
+                    ),
                     result["generation"] is not None
                     and result["generation"].get("generation_status")
-                    == "llm_generated_validated",
+                    in (
+                        {"llm_generated_validated", "validated_fallback"}
+                        if case.kind == "thematic_focus"
+                        else {"llm_generated_validated"}
+                    ),
                     (
                         result["generation"].get("generation_status")
                         if result["generation"]
                         else None
                     ),
-                    "llm_generated_validated",
+                    (
+                        "llm_generated_validated or validated_fallback"
+                        if case.kind == "thematic_focus"
+                        else "llm_generated_validated"
+                    ),
                 ),
                 _check(
                     "retrieval_evidence",
-                    len(evidence) >= 3
+                    len(evidence) >= (2 if case.kind == "thematic_focus" else 3)
                     and all(
                         item["metadata"].get(
                             "theme_{}".format(item["retrieved_for_theme"])
@@ -158,7 +233,11 @@ def verify_demo_result(
                         for item in evidence
                     ),
                     len(evidence),
-                    "at least three reviews matching their retrieval theme",
+                    (
+                        "at least two reviews for the requested theme"
+                        if case.kind == "thematic_focus"
+                        else "at least three reviews matching their retrieval theme"
+                    ),
                 ),
                 _check(
                     "translations",
@@ -242,6 +321,27 @@ def verify_demo_result(
                 ranked_names,
                 "three distinct ranked complaint hypotheses",
             )
+        )
+    elif case.kind == "thematic_focus":
+        checks.extend(
+            [
+                _check(
+                    "focused_theme_ranking",
+                    ranked_names == [case.expected_theme],
+                    ranked_names,
+                    "only the explicitly requested theme",
+                ),
+                _check(
+                    "focused_theme_retrieval",
+                    bool(evidence)
+                    and all(
+                        item["retrieved_for_theme"] == case.expected_theme
+                        for item in evidence
+                    ),
+                    [item["retrieved_for_theme"] for item in evidence],
+                    "all examples match the explicitly requested theme",
+                ),
+            ]
         )
 
     return {

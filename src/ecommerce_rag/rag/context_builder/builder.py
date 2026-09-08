@@ -14,6 +14,26 @@ METRIC_LABELS = {
     "average_order_value": "Valore medio dell'ordine",
 }
 
+THEME_LABELS_IT = {
+    "non_delivery": "mancata consegna",
+    "delivery_delay": "ritardo nella consegna",
+    "damaged_or_defective": "prodotto danneggiato o difettoso",
+    "wrong_or_missing_item": "prodotto errato o incompleto",
+    "quality_or_expectation": "qualità inferiore alle aspettative",
+    "service_or_refund": "assistenza o rimborso",
+    "other": "altro",
+    "uncertain": "tema incerto",
+}
+
+METRIC_SUBJECTS_IT = {
+    "average_rating": "Il rating medio",
+    "negative_review_rate": "La quota di recensioni negative",
+    "late_delivery_rate": "La quota di consegne tardive",
+    "average_delivery_delay": "Il ritardo medio delle consegne tardive",
+    "order_volume": "Il numero di ordini",
+    "average_order_value": "Il valore medio dell'ordine",
+}
+
 
 def _percentage(value: Optional[float]) -> str:
     return "n.d." if value is None else "{:.2f}%".format(value * 100)
@@ -66,6 +86,87 @@ def _theme_line(item: Dict[str, Any], denominator: int) -> str:
             item["mention_rate_change"] * 100
         )
     return line + "."
+
+
+def _metric_sentence(metric: str, payload: Dict[str, Any]) -> str:
+    subject = METRIC_SUBJECTS_IT.get(metric, METRIC_LABELS.get(metric, metric))
+    percentage_metric = metric in {"negative_review_rate", "late_delivery_rate"}
+    formatter = _percentage if percentage_metric else _number
+    current = formatter(payload.get("value"))
+    baseline = payload.get("baseline_value")
+    change = payload.get("change")
+    if baseline is None:
+        return "Nel gruppo selezionato, {} è {}".format(subject.lower(), current)
+    sentence = "{} è {}, rispetto a {} nella baseline".format(
+        subject, current, formatter(baseline)
+    )
+    if change is not None:
+        formatted_change = (
+            "{:+.2f} punti percentuali".format(change * 100)
+            if percentage_metric
+            else "{:+.4f}".format(change)
+        )
+        sentence += " (variazione {})".format(formatted_change)
+    return sentence
+
+
+def quantitative_summary_it(
+    question: Dict[str, Any], analytics: Dict[str, Any]
+) -> str:
+    """Create a factual numerical summary without delegating arithmetic to the LLM."""
+    primary = question.get("metric")
+    order = [primary, "average_rating", "negative_review_rate", "late_delivery_rate"]
+    selected = []
+    for metric in order:
+        if metric in analytics["metrics"] and metric not in selected:
+            payload = analytics["metrics"][metric]
+            if isinstance(payload, dict) and "value" in payload:
+                selected.append(metric)
+    clauses = []
+    prefix = "Nel gruppo selezionato, "
+    for metric in selected:
+        clause = _metric_sentence(metric, analytics["metrics"][metric])
+        if clause.startswith(prefix):
+            clause = clause[len(prefix) :]
+        elif clause:
+            clause = clause[0].lower() + clause[1:]
+        clauses.append(clause)
+    if not clauses:
+        return "Non sono disponibili metriche quantitative per il gruppo selezionato."
+    if len(clauses) == 1:
+        body = clauses[0]
+    else:
+        has_baseline = any(
+            analytics["metrics"][metric].get("baseline_value") is not None
+            for metric in selected
+        )
+        separator = "; " if has_baseline else ", "
+        body = separator.join(clauses[:-1]) + " e " + clauses[-1]
+    return "{}{}.".format(prefix, body)
+
+
+def theme_summary_it(theme_evidence: Dict[str, Any], limit: int = 3) -> str:
+    """Describe ranked theme prevalence over the complete eligible population."""
+    selected = theme_evidence["ranked_hypotheses"][:limit]
+    denominator = theme_evidence["current_population"]["negative_text_reviews"]
+    if not selected:
+        return "Non emergono complaint theme supportati nel gruppo selezionato."
+    parts = []
+    for item in selected:
+        part = "{}: {} menzioni su {} ({})".format(
+            THEME_LABELS_IT.get(item["theme"], item["theme"]),
+            item["current_mentions"],
+            denominator,
+            _percentage(item.get("current_mention_rate")),
+        )
+        if item.get("mention_rate_change") is not None:
+            part += ", {:+.2f} punti percentuali rispetto alla baseline".format(
+                item["mention_rate_change"] * 100
+            )
+        parts.append(part)
+    return "Tra le recensioni negative con testo, i temi più supportati sono {}.".format(
+        "; ".join(parts)
+    )
 
 
 def build_grounded_context(
@@ -123,6 +224,8 @@ def build_grounded_context(
             )
         },
         "review_evidence": review_evidence,
+        "quantitative_summary_it": quantitative_summary_it(question, analytics),
+        "theme_summary_it": theme_summary_it(theme_evidence, max_ranked_themes),
         "observation_lines_it": observations,
         "grounding_rules": {
             "metrics_source": "Spark structured analytics only",
@@ -154,6 +257,10 @@ def render_answer_it(
             [
                 "",
                 "Interpretazione grounded:",
+                generation.get(
+                    "quantitative_summary", context["quantitative_summary_it"]
+                ),
+                generation.get("theme_summary", context["theme_summary_it"]),
                 generation["interpretation"],
                 "Temi selezionati dall'LLM: {}.".format(
                     ", ".join(generation["theme_keys"])
@@ -161,11 +268,15 @@ def render_answer_it(
                 "Review citate dall'LLM: {}.".format(
                     ", ".join("[{}]".format(value) for value in generation["review_ids"])
                 ),
-                "",
-                "Limite interpretativo:",
-                generation["evidence_limit"],
             ]
         )
+        arguments = generation.get("review_arguments") or []
+        if arguments:
+            lines.extend(["", "Argomenti osservati nelle recensioni:"])
+            lines.extend(
+                "- [{}] {}".format(item["review_id"], item["argument_it"])
+                for item in arguments
+            )
     lines.extend(["", "Recensioni recuperate:"])
     if not context["review_evidence"]:
         lines.append("- Nessuna recensione compatibile con i filtri.")

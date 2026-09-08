@@ -158,6 +158,27 @@ services:
     networks:
       - bigdata
 
+  ollama:
+    image: ${OLLAMA_IMAGE:-ollama/ollama:0.11.10}
+    hostname: ollama
+    restart: unless-stopped
+    environment:
+      OLLAMA_CONTEXT_LENGTH: "4096"
+      OLLAMA_KEEP_ALIVE: "0"
+      OLLAMA_NO_CLOUD: "1"
+    ports:
+      - "${OLLAMA_PORT:-11434}:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    networks:
+      - bigdata
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 10s
+
   app:
     build:
       context: .
@@ -170,6 +191,11 @@ services:
     command: ["trap : TERM INT; sleep infinity & wait"]
     environment:
       APP_ENV: ${APP_ENV:-local}
+      TRANSLATION_PROVIDER: ${TRANSLATION_PROVIDER:-local}
+      GOOGLE_TRANSLATE_API_KEY: ${GOOGLE_TRANSLATE_API_KEY:-}
+      LLM_PROVIDER: ${LLM_PROVIDER:-ollama}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      OPENAI_MODEL: ${OPENAI_MODEL:-gpt-5.6-terra}
       PYTHONPATH: /workspace/src:/opt/spark/python:/opt/spark/python/lib/py4j-0.10.9.7-src.zip
       HADOOP_CONF_DIR: /workspace/config/hdfs
       SPARK_CONF_DIR: /workspace/config/spark
@@ -189,6 +215,10 @@ services:
         condition: service_started
       chroma:
         condition: service_started
+      ollama:
+        condition: service_healthy
+    ports:
+      - "${STREAMLIT_PORT:-8501}:8501"
     volumes:
       - ./:/workspace
       - app-cache:/tmp/app-home
@@ -205,4 +235,5 @@ volumes:
   datanode-1-data:
   datanode-2-data:
   chroma-data:
+  ollama-data:
   app-cache:

@@ -17,6 +17,74 @@ SUPPORTED_INTENTS = (
     "explain_delivery_impact_on_rating",
 )
 
+SUPPORTED_REQUESTED_THEMES = (
+    "non_delivery",
+    "delivery_delay",
+    "wrong_or_missing_item",
+    "damaged_or_defective",
+    "quality_or_expectation",
+    "service_or_refund",
+)
+
+THEME_ALIASES: Dict[str, Tuple[str, ...]] = {
+    "non_delivery": (
+        "mancata consegna",
+        "non consegnato",
+        "non ricevuto",
+        "mai arrivato",
+    ),
+    "delivery_delay": (
+        "ritardo nella consegna",
+        "ritardi nella consegna",
+        "consegna in ritardo",
+        "consegne in ritardo",
+        "ritardo",
+        "ritardi",
+    ),
+    "wrong_or_missing_item": (
+        "articolo errato",
+        "articoli errati",
+        "prodotto errato",
+        "prodotti errati",
+        "articolo sbagliato",
+        "prodotto sbagliato",
+        "articolo mancante",
+        "articoli mancanti",
+        "parti mancanti",
+        "prodotto incompleto",
+        "prodotti incompleti",
+    ),
+    "damaged_or_defective": (
+        "danneggiato",
+        "danneggiati",
+        "danneggiate",
+        "difetto",
+        "difetti",
+        "difettoso",
+        "difettosi",
+        "rotto",
+        "rotti",
+        "non funzionante",
+        "non funzionanti",
+    ),
+    "quality_or_expectation": (
+        "qualita",
+        "aspettative",
+        "diverso dalla descrizione",
+        "diversi dalla descrizione",
+        "diverso dalla foto",
+        "diversi dalla foto",
+    ),
+    "service_or_refund": (
+        "assistenza",
+        "servizio clienti",
+        "rimborso",
+        "rimborsi",
+        "reso",
+        "resi",
+    ),
+}
+
 CATEGORY_ALIASES: Dict[str, str] = {
     "office furniture": "office_furniture",
     "mobili per ufficio": "office_furniture",
@@ -27,6 +95,12 @@ CATEGORY_ALIASES: Dict[str, str] = {
     "informatica e accessori": "computers_accessories",
     "casa e giardino": "housewares",
     "libri": "books_general_interest",
+    "piccoli elettrodomestici": "small_appliances",
+    "elettronica": "electronics",
+    "profumeria": "perfumery",
+    "profumi": "perfumery",
+    "letto bagno e tavola": "bed_bath_table",
+    "letto, bagno e tavola": "bed_bath_table",
 }
 
 ITALIAN_MONTHS = {
@@ -78,7 +152,21 @@ def _extract_category(question: str) -> Optional[str]:
     return None
 
 
-def _intent_and_metric(question: str) -> Tuple[str, str]:
+def _extract_requested_theme(question: str) -> Optional[str]:
+    normalized = _normalized(question)
+    matches = []
+    for theme, aliases in THEME_ALIASES.items():
+        for alias in aliases:
+            if alias in normalized:
+                matches.append((len(alias), theme))
+    if not matches:
+        return None
+    return max(matches)[1]
+
+
+def _intent_and_metric(
+    question: str, requested_theme: Optional[str] = None
+) -> Tuple[str, str]:
     normalized = _normalized(question)
     rating = any(token in normalized for token in ("rating", "valutaz", "punteggio"))
     delivery = any(
@@ -114,7 +202,7 @@ def _intent_and_metric(question: str) -> Tuple[str, str]:
         return "explain_negative_review_increase", "negative_review_rate"
     if rating:
         return "explain_rating_drop", "average_rating"
-    if negative or complaints:
+    if negative or complaints or requested_theme:
         return "analyze_low_rating_complaints", "negative_review_rate"
     return "unsupported", "unknown"
 
@@ -125,11 +213,12 @@ class InterpretedQuestion:
     question_language: str
     intent: str
     metric: str
+    requested_theme: Optional[str]
     category: Optional[str]
     customer_state: Optional[str]
     start_month: Optional[str]
     end_month: Optional[str]
-    interpretation_method: str = "controlled_rules_v1"
+    interpretation_method: str = "controlled_rules_v2"
 
     def as_dict(self) -> dict:
         return asdict(self)
@@ -148,6 +237,7 @@ def interpret_question(
     *,
     intent: Optional[str] = None,
     metric: Optional[str] = None,
+    requested_theme: Optional[str] = None,
     category: Optional[str] = None,
     customer_state: Optional[str] = None,
     start_month: Optional[str] = None,
@@ -155,13 +245,18 @@ def interpret_question(
 ) -> InterpretedQuestion:
     if not question or not question.strip():
         raise ValueError("question must not be empty")
-    inferred_intent, inferred_metric = _intent_and_metric(question)
+    inferred_theme = _extract_requested_theme(question)
+    selected_theme = requested_theme or inferred_theme
+    if selected_theme is not None and selected_theme not in SUPPORTED_REQUESTED_THEMES:
+        raise ValueError("Unknown requested complaint theme: {}".format(selected_theme))
+    inferred_intent, inferred_metric = _intent_and_metric(question, selected_theme)
     inferred_start, inferred_end = _extract_period(question)
     interpreted = InterpretedQuestion(
         question_original=question.strip(),
         question_language="it",
         intent=intent or inferred_intent,
         metric=metric or inferred_metric,
+        requested_theme=selected_theme,
         category=category or _extract_category(question),
         customer_state=customer_state,
         start_month=start_month or inferred_start,

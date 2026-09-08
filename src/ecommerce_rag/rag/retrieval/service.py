@@ -92,6 +92,35 @@ class ReviewRetriever:
         self.reranker = reranker
         self.candidate_k = candidate_k
 
+    def _query_with_filtered_backoff(
+        self, question_embedding, requested_candidates: int, where
+    ):
+        """Retry a filtered HNSW query when its result set is smaller than n_results."""
+        candidates = requested_candidates
+        while True:
+            try:
+                return self.collection.query(
+                    query_embeddings=[question_embedding],
+                    n_results=candidates,
+                    where=where,
+                    include=["documents", "metadatas", "distances"],
+                )
+            except Exception as exc:
+                message = str(exc).lower()
+                filtered_hnsw_error = (
+                    where is not None
+                    and (
+                        "contigious 2d array" in message
+                        or "ef or m is too small" in message
+                    )
+                )
+                if not filtered_hnsw_error or candidates <= 1:
+                    raise
+                smaller = max(1, candidates // 2)
+                if smaller == candidates:
+                    raise
+                candidates = smaller
+
     def retrieve(
         self,
         question: str,
@@ -107,11 +136,10 @@ class ReviewRetriever:
         rerank = use_reranker and self.reranker is not None
         requested_candidates = max(top_k, self.candidate_k) if rerank else top_k
         selected = filters or RetrievalFilters()
-        query = self.collection.query(
-            query_embeddings=[self.embedder.embed_query(question.strip())],
-            n_results=requested_candidates,
-            where=build_where(selected),
-            include=["documents", "metadatas", "distances"],
+        query = self._query_with_filtered_backoff(
+            self.embedder.embed_query(question.strip()),
+            requested_candidates,
+            build_where(selected),
         )
         ids = (query.get("ids") or [[]])[0]
         documents = (query.get("documents") or [[]])[0]

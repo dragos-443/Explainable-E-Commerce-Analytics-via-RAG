@@ -62,6 +62,22 @@ try {
         throw 'Creazione della struttura HDFS non riuscita.'
     }
 
+    $llmProvider = docker compose exec -T app python3 -c "from ecommerce_rag.common.config import load_config; print(load_config()['llm']['provider'])"
+    if ($LASTEXITCODE -ne 0) {
+        throw 'Lettura della configurazione LLM non riuscita.'
+    }
+    if ($llmProvider.Trim() -eq 'ollama') {
+        $llmModel = docker compose exec -T app python3 -c "from ecommerce_rag.common.config import load_config; print(load_config()['llm']['model'])"
+        if ($LASTEXITCODE -ne 0 -or -not $llmModel.Trim()) {
+            throw 'Lettura del modello Ollama non riuscita.'
+        }
+        Write-Host "Verifica del modello Ollama $($llmModel.Trim())..."
+        docker compose exec -T ollama ollama pull $llmModel.Trim()
+        if ($LASTEXITCODE -ne 0) {
+            throw 'Download o verifica del modello Ollama non riusciti.'
+        }
+    }
+
     & "$PSScriptRoot\status.ps1"
     Write-Host 'Ambiente pronto. I volumi persistono anche dopo stop.ps1.' -ForegroundColor Green
 }

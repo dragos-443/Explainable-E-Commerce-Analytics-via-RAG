@@ -15,7 +15,13 @@ from ecommerce_rag.rag.retrieval.service import (
     build_where,
 )
 from ecommerce_rag.rag.themes import classify_review_themes
-from ecommerce_rag.rag.translation import CachedMarianTranslator
+from ecommerce_rag.rag.translation import (
+    TRANSLATION_GLOSSARY_VERSION,
+    CachedGoogleTranslator,
+    CachedMarianTranslator,
+    FallbackTranslator,
+    apply_translation_glossary,
+)
 
 
 @pytest.fixture(scope="module")
@@ -343,6 +349,43 @@ def test_retrieval_models_can_be_released_before_llm_generation() -> None:
     assert translator.unloaded is True
 
 
+def test_filtered_retrieval_reduces_candidates_for_small_hnsw_subsets() -> None:
+    class SmallFilteredCollection(FakeCollection):
+        def __init__(self):
+            super().__init__()
+            self.attempts = []
+
+        def query(self, query_embeddings, n_results, where, include):
+            self.attempts.append(n_results)
+            if n_results > 3:
+                raise Exception(
+                    "Cannot return the results in a contigious 2D array. "
+                    "Probably ef or M is too small"
+                )
+            return super().query(query_embeddings, n_results, where, include)
+
+    class PassthroughReranker:
+        def rerank(self, question, candidates, top_k):
+            return candidates[:top_k]
+
+    collection = SmallFilteredCollection()
+    retriever = ReviewRetriever(
+        collection,
+        FakeEmbedder(),
+        reranker=PassthroughReranker(),
+        candidate_k=50,
+    )
+
+    results = retriever.retrieve(
+        "articoli mancanti",
+        top_k=2,
+        filters=RetrievalFilters(product_category="small_appliances"),
+    )
+
+    assert collection.attempts == [50, 25, 12, 6, 3]
+    assert [item["review_id"] for item in results] == ["r1"]
+
+
 def test_translation_cache_preserves_missing_fields(tmp_path) -> None:
     class StubTranslator(CachedMarianTranslator):
         calls = 0
@@ -360,3 +403,100 @@ def test_translation_cache_preserves_missing_fields(tmp_path) -> None:
     assert first["cache_hit"] is False
     assert second["cache_hit"] is True
     assert translator.calls == 1
+
+
+def test_translation_glossary_corrects_cobre_leito_on_cache_miss_and_hit(
+    tmp_path,
+) -> None:
+    class StubTranslator(CachedMarianTranslator):
+        calls = 0
+
+        def _translate_texts(self, texts):
+            self.calls += 1
+            return ["Il rame letto sembra un lenzuolo"]
+
+    translator = StubTranslator("model", "revision", str(tmp_path / "cache.sqlite"))
+    source = "O cobre leito parece um lençol"
+
+    first = translator.translate_review("r1", None, source)
+    second = translator.translate_review("r1", None, source)
+
+    assert first["message"] == "Il copriletto sembra un lenzuolo"
+    assert second["message"] == first["message"]
+    assert first["cache_hit"] is False
+    assert second["cache_hit"] is True
+    assert translator.calls == 1
+    assert first["translation_glossary_version"] == TRANSLATION_GLOSSARY_VERSION
+    assert first["glossary_corrections"][0]["rule"] == "cobre_leito"
+
+
+def test_translation_glossary_does_not_replace_real_copper() -> None:
+    translation, corrections = apply_translation_glossary(
+        "O produto contém cobre", "Il prodotto contiene rame"
+    )
+
+    assert translation == "Il prodotto contiene rame"
+    assert corrections == []
+
+
+def test_google_translation_uses_cache_and_does_not_put_key_in_url(tmp_path) -> None:
+    class Response:
+        ok = True
+        status_code = 200
+
+        def json(self):
+            return {
+                "data": {
+                    "translations": [
+                        {"translatedText": "Qualit&agrave; pessima"}
+                    ]
+                }
+            }
+
+    class Session:
+        def __init__(self):
+            self.calls = []
+
+        def post(self, url, **kwargs):
+            self.calls.append((url, kwargs))
+            return Response()
+
+    session = Session()
+    translator = CachedGoogleTranslator(
+        "secret-key", str(tmp_path / "cache.sqlite"), session=session
+    )
+    first = translator.translate_review("r1", None, "Péssima qualidade")
+    second = translator.translate_review("r1", None, "Péssima qualidade")
+
+    assert first["message"] == "Qualità pessima"
+    assert first["cache_hit"] is False
+    assert second["cache_hit"] is True
+    assert len(session.calls) == 1
+    assert "secret-key" not in session.calls[0][0]
+    assert session.calls[0][1]["headers"]["X-Goog-Api-Key"] == "secret-key"
+
+
+def test_google_failure_uses_local_fallback() -> None:
+    class Translator:
+        def __init__(self, status, message=None):
+            self.status = status
+            self.message = message
+
+        def translate_review(self, review_id, title, message, target_language="it"):
+            return {
+                "status": self.status,
+                "message": self.message,
+                "error": "cloud unavailable" if self.status != "translated" else None,
+            }
+
+        def unload(self):
+            return None
+
+    translator = FallbackTranslator(
+        Translator("failed_original_available"), Translator("translated", "locale")
+    )
+    result = translator.translate_review("r1", None, "texto")
+
+    assert result["message"] == "locale"
+    assert result["translation_provider"] == "local_fallback"
+    assert result["primary_error"] == "cloud unavailable"

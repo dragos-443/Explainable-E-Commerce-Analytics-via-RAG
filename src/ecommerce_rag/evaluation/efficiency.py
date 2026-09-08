@@ -20,7 +20,7 @@ from ecommerce_rag.common.config import load_config
 from ecommerce_rag.rag.embeddings.model import MultilingualE5Embedder
 from ecommerce_rag.rag.explanation_pipeline import ExplanationPipeline
 from ecommerce_rag.rag.index import chroma_client, get_collection
-from ecommerce_rag.rag.prompting.local_llm import LocalTransformersGenerator
+from ecommerce_rag.rag.prompting.local_llm import build_generator
 from ecommerce_rag.rag.question_interpreter import interpret_question
 from ecommerce_rag.rag.retrieval.reranking import MultilingualCrossEncoderReranker
 from ecommerce_rag.rag.retrieval.service import ReviewRetriever
@@ -294,7 +294,7 @@ def main() -> None:
                 candidate_k=int(rag["retrieval_candidate_k"]),
             ),
             TimedGenerator(
-                LocalTransformersGenerator(llm["model"], llm["revision"], int(llm["max_new_tokens"])),
+                build_generator(llm),
                 timer,
             ),
         )
@@ -361,7 +361,7 @@ def main() -> None:
                 "reranker_revision": rag["reranker_revision"],
                 "reranker_batch_size": rag["reranker_batch_size"],
                 "llm_model": llm["model"],
-                "llm_revision": llm["revision"],
+                "llm_revision": llm.get("revision"),
                 "translation_model": rag["translation_model"],
                 "translation_revision": rag["translation_revision"],
                 "indexed_documents": get_collection(chroma_client(config), config).count(),
