@@ -370,6 +370,8 @@ def benchmark(
     repetitions: int,
     warmup_runs: int,
     output_root: Path,
+    environment: str = "local",
+    storage_scheme: str = "hdfs",
 ) -> Dict[str, Any]:
     if 1 not in factors:
         raise ValueError("the benchmark factors must include the 1x baseline")
@@ -443,7 +445,7 @@ def benchmark(
             "C_multi_join_features_aggregation": "join links, reviews, orders and themes; derive delivery and negative-text features; aggregate KPIs",
         },
         "factor_metadata": factor_metadata,
-        "environment": environment_metadata(spark),
+        "environment": environment_metadata(spark, environment, storage_scheme),
         "warmups": warmups,
         "runs": runs,
         "summary": summary_rows,
@@ -548,7 +550,11 @@ def validate_results(
                 raise ValueError(f"non-linear additive result for {workload} {factor}x")
 
 
-def environment_metadata(spark: SparkSession) -> Dict[str, Any]:
+def environment_metadata(
+    spark: SparkSession,
+    environment: str = "local",
+    storage_scheme: str = "hdfs",
+) -> Dict[str, Any]:
     memory_kib = None
     try:
         with open("/proc/meminfo", encoding="utf-8") as handle:
@@ -569,8 +575,17 @@ def environment_metadata(spark: SparkSession) -> Dict[str, Any]:
         "executor_cores": conf.get("spark.executor.cores", "cluster default"),
         "executor_memory": conf.get("spark.executor.memory", "cluster default"),
         "shuffle_partitions": spark.conf.get("spark.sql.shuffle.partitions"),
-        "storage": "HDFS with Parquet/Snappy",
-        "cluster_topology": "1 Spark master + 2 Spark workers; 1 HDFS NameNode + 2 DataNodes",
+        "environment": environment,
+        "storage": (
+            "Amazon S3 with Parquet/Snappy"
+            if storage_scheme in {"s3", "s3a"}
+            else "HDFS with Parquet/Snappy"
+        ),
+        "cluster_topology": (
+            "Amazon EMR on YARN; node counts recorded by the infrastructure manifest"
+            if spark.sparkContext.master == "yarn"
+            else "1 Spark master + 2 Spark workers; 1 HDFS NameNode + 2 DataNodes"
+        ),
     }
 
 
@@ -648,6 +663,8 @@ def main() -> None:
                 args.repetitions,
                 args.warmup_runs,
                 output_root,
+                environment=args.environment,
+                storage_scheme=config["storage"]["scheme"],
             )
     finally:
         spark.stop()

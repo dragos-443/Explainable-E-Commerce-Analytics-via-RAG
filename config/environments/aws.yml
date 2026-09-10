@@ -1,21 +1,29 @@
 environment: aws
 
-# Scheletro da completare nella Fase 10 con nomi e URI reali.
 storage:
   scheme: s3a
-  base_uri: s3a://REPLACE_WITH_BUCKET/ecommerce-rag
-  raw_uri: s3a://REPLACE_WITH_BUCKET/ecommerce-rag/raw
-  processed_uri: s3a://REPLACE_WITH_BUCKET/ecommerce-rag/processed
-  curated_uri: s3a://REPLACE_WITH_BUCKET/ecommerce-rag/curated
-  scaled_uri: s3a://REPLACE_WITH_BUCKET/ecommerce-rag/scaled
-  outputs_uri: s3a://REPLACE_WITH_BUCKET/ecommerce-rag/outputs
+  base_uri: s3a://ecommerce-rag-analytics-5138901/ecommerce-rag
+  raw_uri: s3a://ecommerce-rag-analytics-5138901/ecommerce-rag/raw
+  processed_uri: s3a://ecommerce-rag-analytics-5138901/ecommerce-rag/processed
+  curated_uri: s3a://ecommerce-rag-analytics-5138901/ecommerce-rag/curated
+  scaled_uri: s3a://ecommerce-rag-analytics-5138901/ecommerce-rag/scaled
+  outputs_uri: s3a://ecommerce-rag-analytics-5138901/ecommerce-rag/outputs
 
 spark:
   master: yarn
   deploy_mode: client
 
+cluster:
+  region: us-east-1
+  release_label: emr-7.9.0
+  spark_version: 3.5.5
+  instance_type: m5.xlarge
+  primary_nodes: 1
+  core_nodes: 2
+
 chroma:
-  host: REPLACE_WITH_PRIVATE_HOST
+  # Chroma resta locale: la validazione AWS riguarda la pipeline Big Data.
+  host: localhost
   port: 8000
   collection: olist_reviews_e5_v1
 
