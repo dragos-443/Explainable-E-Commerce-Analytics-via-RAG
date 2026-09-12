@@ -23,6 +23,23 @@ def test_retrieval_qrels_match_frozen_pool() -> None:
         assert set(qrels[query_id]).issubset(pooled_ids)
 
 
+def test_e5_base_supplemental_qrels_are_complete_and_disjoint() -> None:
+    qrels = _load("e5_base_reranked_qrels.json")
+    relevant = {
+        (query_id, review_id)
+        for query_id, review_ids in qrels["relevant_ids"].items()
+        for review_id in review_ids
+    }
+    non_relevant = {
+        (query_id, review_id)
+        for query_id, review_ids in qrels["non_relevant_ids"].items()
+        for review_id in review_ids
+    }
+    assert relevant.isdisjoint(non_relevant)
+    assert len(relevant) == 42
+    assert len(non_relevant) == 15
+
+
 def test_theme_annotations_match_frozen_sample_without_review_text() -> None:
     sample = _load("theme_benchmark_sample.json")
     annotations = _load("theme_annotations.json")["manual_themes"]
