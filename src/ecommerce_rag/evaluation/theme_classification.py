@@ -22,6 +22,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--environment", default="local")
     parser.add_argument("--per-theme", type=int, default=6)
     parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument(
+        "--sample-source",
+        choices=("reference", "latest"),
+        default="reference",
+        help=(
+            "Score the frozen manually annotated sample (reference) or the most "
+            "recently collected annotation template (latest)."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -118,9 +127,14 @@ def collect(environment: str, per_theme: int, output_root: Path) -> None:
         spark.stop()
 
 
-def score(output_root: Path) -> None:
+def score(output_root: Path, sample_source: str = "reference") -> None:
+    template_path = (
+        DATA_ROOT / "theme_benchmark_sample.json"
+        if sample_source == "reference"
+        else output_root / "theme_annotations_template.json"
+    )
     template = json.loads(
-        (output_root / "theme_annotations_template.json").read_text(encoding="utf-8")
+        template_path.read_text(encoding="utf-8")
     )
     annotations = json.loads(
         (DATA_ROOT / "theme_annotations.json").read_text(encoding="utf-8")
@@ -165,6 +179,7 @@ def score(output_root: Path) -> None:
         "schema_version": "1.0",
         "annotation_protocol": annotations["annotation_protocol"],
         "sample_selection": annotations["sample_selection"],
+        "sample_source": sample_source,
         "composition": composition,
         "pilot_metrics": pilot,
         "final_metrics": final,
@@ -197,7 +212,7 @@ def main() -> None:
     if args.mode == "collect":
         collect(args.environment, args.per_theme, output_root)
     else:
-        score(output_root)
+        score(output_root, args.sample_source)
 
 
 if __name__ == "__main__":

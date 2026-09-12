@@ -15,6 +15,12 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--demo-root", default="/workspace/reports/demo/phase6")
     parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument(
+        "--input-source",
+        choices=("reference", "latest"),
+        default="reference",
+        help="Use the frozen manually reviewed cases or the latest demo outputs.",
+    )
     return parser.parse_args()
 
 
@@ -27,11 +33,18 @@ def main() -> None:
     annotations = json.loads(
         (DATA_ROOT / "qualitative_annotations.json").read_text(encoding="utf-8")
     )
-    demo_root = Path(args.demo_root)
-    payloads = {
-        case_id: json.loads((demo_root / "{}.json".format(case_id)).read_text(encoding="utf-8"))
-        for case_id in annotations["generation"]
-    }
+    if args.input_source == "reference":
+        payloads = json.loads(
+            (DATA_ROOT / "qualitative_benchmark_cases.json").read_text(encoding="utf-8")
+        )
+    else:
+        demo_root = Path(args.demo_root)
+        payloads = {
+            case_id: json.loads(
+                (demo_root / "{}.json".format(case_id)).read_text(encoding="utf-8")
+            )
+            for case_id in annotations["generation"]
+        }
     generation_rows = []
     available_translations = {}
     for case_id, payload in payloads.items():
@@ -86,6 +99,7 @@ def main() -> None:
     result = {
         "schema_version": "1.0",
         "annotation_protocol": annotations["annotation_protocol"],
+        "input_source": args.input_source,
         "generation": {
             "sample_size": len(generation_rows),
             "mean_scores": {

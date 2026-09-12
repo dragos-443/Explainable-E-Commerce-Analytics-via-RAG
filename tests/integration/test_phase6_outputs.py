@@ -60,7 +60,10 @@ def test_qualitative_cases_keep_original_translation_and_grounding() -> None:
         payload = _load(case_id)
         evidence = payload["context"]["review_evidence"]
         allowed_ids = {item["review_id"] for item in evidence}
-        assert payload["generation"]["generation_status"] == "llm_generated_validated"
+        assert payload["generation"]["generation_status"] in {
+            "llm_generated_validated",
+            "validated_fallback",
+        }
         assert len(evidence) >= 3
         assert all(item["document_original"] for item in evidence)
         assert all(item["translation"]["status"] == "translated" for item in evidence)

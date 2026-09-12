@@ -1,0 +1,214 @@
+{
+    "logistics_march_2018":  {
+                                 "generation":  {
+                                                    "review_ids":  [
+                                                                       "1ce9388b1a3ad76f5f1a64f208a90fce",
+                                                                       "6ac48f6b99cdced66e3a0b027e381e98",
+                                                                       "14cf2de9e9dedefd915cf9f6c7a3d692",
+                                                                       "970bd1fd0482b3e0e15769800de6a7a5",
+                                                                       "c04fd11d96ca96f3fda80b3d330f12de",
+                                                                       "9e7027584b883a566624bda9af024c78"
+                                                                   ],
+                                                    "theme_keys":  [
+                                                                       "non_delivery",
+                                                                       "delivery_delay",
+                                                                       "wrong_or_missing_item"
+                                                                   ],
+                                                    "interpretation":  "Le evidenze sono compatibili con le ipotesi selezionate.",
+                                                    "generation_status":  "llm_generated_validated"
+                                                },
+                                 "insufficient_evidence":  {
+                                                               "is_insufficient":  false
+                                                           },
+                                 "context":  {
+                                                 "review_evidence":  [
+                                                                         {
+                                                                             "review_id":  "1ce9388b1a3ad76f5f1a64f208a90fce",
+                                                                             "translation":  {
+                                                                                                 "status":  "translated"
+                                                                                             }
+                                                                         },
+                                                                         {
+                                                                             "review_id":  "6ac48f6b99cdced66e3a0b027e381e98",
+                                                                             "translation":  {
+                                                                                                 "status":  "translated"
+                                                                                             }
+                                                                         },
+                                                                         {
+                                                                             "review_id":  "14cf2de9e9dedefd915cf9f6c7a3d692",
+                                                                             "translation":  {
+                                                                                                 "status":  "translated"
+                                                                                             }
+                                                                         },
+                                                                         {
+                                                                             "review_id":  "970bd1fd0482b3e0e15769800de6a7a5",
+                                                                             "translation":  {
+                                                                                                 "status":  "translated"
+                                                                                             }
+                                                                         },
+                                                                         {
+                                                                             "review_id":  "c04fd11d96ca96f3fda80b3d330f12de",
+                                                                             "translation":  {
+                                                                                                 "status":  "translated"
+                                                                                             }
+                                                                         },
+                                                                         {
+                                                                             "review_id":  "9e7027584b883a566624bda9af024c78",
+                                                                             "translation":  {
+                                                                                                 "status":  "translated"
+                                                                                             }
+                                                                         }
+                                                                     ],
+                                                 "ranked_theme_evidence":  [
+                                                                               {
+                                                                                   "theme":  "non_delivery"
+                                                                               },
+                                                                               {
+                                                                                   "theme":  "delivery_delay"
+                                                                               },
+                                                                               {
+                                                                                   "theme":  "wrong_or_missing_item"
+                                                                               }
+                                                                           ]
+                                             }
+                             },
+    "office_furniture_product_issues":  {
+                                            "generation":  {
+                                                               "review_ids":  [
+                                                                                  "38906e7be876bb865ed0ca3238d140fa",
+                                                                                  "ba99c73cdfb4cac0b65aecc0d94787bb",
+                                                                                  "e9900aab8cd7d3235400acefceab61c5",
+                                                                                  "27c9ec0a5cb8ef59c48b2f042d31ce2e"
+                                                                              ],
+                                                               "theme_keys":  [
+                                                                                  "non_delivery",
+                                                                                  "service_or_refund",
+                                                                                  "wrong_or_missing_item"
+                                                                              ],
+                                                               "interpretation":  "Le evidenze sono compatibili con le ipotesi selezionate.",
+                                                               "generation_status":  "llm_generated_validated"
+                                                           },
+                                            "insufficient_evidence":  {
+                                                                          "is_insufficient":  false
+                                                                      },
+                                            "context":  {
+                                                            "review_evidence":  [
+                                                                                    {
+                                                                                        "review_id":  "38906e7be876bb865ed0ca3238d140fa",
+                                                                                        "translation":  {
+                                                                                                            "status":  "translated"
+                                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "review_id":  "ba99c73cdfb4cac0b65aecc0d94787bb",
+                                                                                        "translation":  {
+                                                                                                            "status":  "translated"
+                                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "review_id":  "e9900aab8cd7d3235400acefceab61c5",
+                                                                                        "translation":  {
+                                                                                                            "status":  "translated"
+                                                                                                        }
+                                                                                    },
+                                                                                    {
+                                                                                        "review_id":  "27c9ec0a5cb8ef59c48b2f042d31ce2e",
+                                                                                        "translation":  {
+                                                                                                            "status":  "translated"
+                                                                                                        }
+                                                                                    }
+                                                                                ],
+                                                            "ranked_theme_evidence":  [
+                                                                                          {
+                                                                                              "theme":  "non_delivery"
+                                                                                          },
+                                                                                          {
+                                                                                              "theme":  "service_or_refund"
+                                                                                          },
+                                                                                          {
+                                                                                              "theme":  "wrong_or_missing_item"
+                                                                                          }
+                                                                                      ]
+                                                        }
+                                        },
+    "overall_complaint_analysis":  {
+                                       "generation":  {
+                                                          "review_ids":  [
+                                                                             "b738a3631bdb181519f3a9387833bc1d",
+                                                                             "f495b89455116ac326d54a32ee939a00",
+                                                                             "0b9740c80aede334780599d37387228c",
+                                                                             "7c8154d29d239b02ad0e8f2dcdf3261a",
+                                                                             "a49d63cb074606640ecb874d01d3a3bb"
+                                                                         ],
+                                                          "theme_keys":  [
+                                                                             "non_delivery",
+                                                                             "service_or_refund",
+                                                                             "quality_or_expectation"
+                                                                         ],
+                                                          "interpretation":  "Le evidenze sono compatibili con le ipotesi selezionate.",
+                                                          "generation_status":  "llm_generated_validated"
+                                                      },
+                                       "insufficient_evidence":  {
+                                                                     "is_insufficient":  false
+                                                                 },
+                                       "context":  {
+                                                       "review_evidence":  [
+                                                                               {
+                                                                                   "review_id":  "b738a3631bdb181519f3a9387833bc1d",
+                                                                                   "translation":  {
+                                                                                                       "status":  "translated"
+                                                                                                   }
+                                                                               },
+                                                                               {
+                                                                                   "review_id":  "f495b89455116ac326d54a32ee939a00",
+                                                                                   "translation":  {
+                                                                                                       "status":  "translated"
+                                                                                                   }
+                                                                               },
+                                                                               {
+                                                                                   "review_id":  "0b9740c80aede334780599d37387228c",
+                                                                                   "translation":  {
+                                                                                                       "status":  "translated"
+                                                                                                   }
+                                                                               },
+                                                                               {
+                                                                                   "review_id":  "7c8154d29d239b02ad0e8f2dcdf3261a",
+                                                                                   "translation":  {
+                                                                                                       "status":  "translated"
+                                                                                                   }
+                                                                               },
+                                                                               {
+                                                                                   "review_id":  "a49d63cb074606640ecb874d01d3a3bb",
+                                                                                   "translation":  {
+                                                                                                       "status":  "translated"
+                                                                                                   }
+                                                                               }
+                                                                           ],
+                                                       "ranked_theme_evidence":  [
+                                                                                     {
+                                                                                         "theme":  "non_delivery"
+                                                                                     },
+                                                                                     {
+                                                                                         "theme":  "service_or_refund"
+                                                                                     },
+                                                                                     {
+                                                                                         "theme":  "quality_or_expectation"
+                                                                                     }
+                                                                                 ]
+                                                   }
+                                   },
+    "order_volume_insufficient":  {
+                                      "generation":  null,
+                                      "insufficient_evidence":  {
+                                                                    "is_insufficient":  true
+                                                                },
+                                      "context":  {
+                                                      "review_evidence":  [
+
+                                                                          ],
+                                                      "ranked_theme_evidence":  [
+
+                                                                                ]
+                                                  }
+                                  }
+}

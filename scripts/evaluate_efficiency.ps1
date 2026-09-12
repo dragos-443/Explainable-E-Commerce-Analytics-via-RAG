@@ -1,3 +1,8 @@
+[CmdletBinding()]
+param(
+    [string]$InitialIndexSummary = '/workspace/reports/rag/phase4/index_summary.json'
+)
+
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Push-Location $projectRoot
@@ -21,6 +26,7 @@ try {
         '--repetitions', '3',
         '--chroma-bytes', $chromaBytes,
         '--translation-cache-bytes', $translationCacheBytes
+        '--initial-index-summary', $InitialIndexSummary
     )
     & docker @arguments
     if ($LASTEXITCODE -ne 0) {

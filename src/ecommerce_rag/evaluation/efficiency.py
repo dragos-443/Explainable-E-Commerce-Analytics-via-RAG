@@ -37,6 +37,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repetitions", type=int, default=3)
     parser.add_argument("--chroma-bytes", type=int, required=True)
     parser.add_argument("--translation-cache-bytes", type=int, required=True)
+    parser.add_argument(
+        "--initial-index-summary",
+        default="/workspace/reports/rag/phase4/index_summary.json",
+    )
     parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
     return parser.parse_args()
 
@@ -183,7 +187,9 @@ def summarize(rows, keys):
     return result
 
 
-def offline_benchmark(config: dict, embedder, sample_size: int) -> dict:
+def offline_benchmark(
+    config: dict, embedder, sample_size: int, initial_index_summary: str
+) -> dict:
     client = chroma_client(config)
     source = get_collection(client, config)
     sample = source.get(
@@ -218,9 +224,7 @@ def offline_benchmark(config: dict, embedder, sample_size: int) -> dict:
             raise ValueError("Temporary Chroma benchmark count mismatch")
     finally:
         client.delete_collection(TEMP_COLLECTION)
-    initial = json.loads(
-        Path("/workspace/reports/rag/phase4/index_initial.json").read_text(encoding="utf-8")
-    )
+    initial = json.loads(Path(initial_index_summary).read_text(encoding="utf-8"))
     return {
         "full_initial_build": {
             "documents": initial["documents_upserted"],
@@ -250,7 +254,9 @@ def main() -> None:
         rag["embedding_model"], rag["embedding_revision"],
         passage_prefix=rag["passage_prefix"], query_prefix=rag["query_prefix"]
     )
-    offline = offline_benchmark(config, base_embedder, args.sample_size)
+    offline = offline_benchmark(
+        config, base_embedder, args.sample_size, args.initial_index_summary
+    )
     spark = (
         SparkSession.builder.appName("phase-7-rag-efficiency")
         .config("spark.sql.shuffle.partitions", "8")

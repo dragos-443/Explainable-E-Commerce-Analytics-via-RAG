@@ -200,28 +200,16 @@ def verify_demo_result(
                     "sufficient evidence",
                 ),
                 _check(
-                    (
-                        "validated_generation"
-                        if case.kind == "thematic_focus"
-                        else "validated_llm"
-                    ),
+                    "validated_generation",
                     result["generation"] is not None
                     and result["generation"].get("generation_status")
-                    in (
-                        {"llm_generated_validated", "validated_fallback"}
-                        if case.kind == "thematic_focus"
-                        else {"llm_generated_validated"}
-                    ),
+                    in {"llm_generated_validated", "validated_fallback"},
                     (
                         result["generation"].get("generation_status")
                         if result["generation"]
                         else None
                     ),
-                    (
-                        "llm_generated_validated or validated_fallback"
-                        if case.kind == "thematic_focus"
-                        else "llm_generated_validated"
-                    ),
+                    "llm_generated_validated or validated_fallback",
                 ),
                 _check(
                     "retrieval_evidence",

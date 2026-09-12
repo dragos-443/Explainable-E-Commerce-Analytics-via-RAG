@@ -22,6 +22,15 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--environment", default="local")
     parser.add_argument("--top-k", type=int, default=5)
     parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument(
+        "--pool-source",
+        choices=("reference", "latest"),
+        default="reference",
+        help=(
+            "Score the frozen annotated benchmark pool (reference) or the most "
+            "recently collected pool (latest)."
+        ),
+    )
     return parser.parse_args()
 
 
@@ -114,8 +123,13 @@ def collect(environment: str, top_k: int, output_root: Path) -> None:
     )
 
 
-def score(top_k: int, output_root: Path) -> None:
-    pool = json.loads((output_root / "retrieval_pool.json").read_text(encoding="utf-8"))
+def score(top_k: int, output_root: Path, pool_source: str = "reference") -> None:
+    pool_path = (
+        DATA_ROOT / "retrieval_benchmark_pool.json"
+        if pool_source == "reference"
+        else output_root / "retrieval_pool.json"
+    )
+    pool = json.loads(pool_path.read_text(encoding="utf-8"))
     qrels = json.loads((DATA_ROOT / "retrieval_qrels.json").read_text(encoding="utf-8"))
     judged = {
         query_id: set(document_ids)
@@ -156,10 +170,15 @@ def score(top_k: int, output_root: Path) -> None:
         "query_count": pool["query_count"],
         "query_language": pool["query_language"],
         "evidence_language": pool["evidence_language"],
+        "judged_pairs": sum(
+            len(set().union(*[set(ids) for ids in run["methods"].values()]))
+            for run in pool["runs"]
+        ),
         "candidate_k": pool["candidate_k"],
         "reranker": pool["reranker"],
         "recall_definition": pool["recall_definition"],
         "annotation_protocol": qrels["annotation_protocol"],
+        "pool_source": pool_source,
         "per_query": rows,
         "macro_metrics": by_method,
     }
@@ -178,7 +197,7 @@ def main() -> None:
     if args.mode == "collect":
         collect(args.environment, args.top_k, output_root)
     else:
-        score(args.top_k, output_root)
+        score(args.top_k, output_root, args.pool_source)
 
 
 if __name__ == "__main__":

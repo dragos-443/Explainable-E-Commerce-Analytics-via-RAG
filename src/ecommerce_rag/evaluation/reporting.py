@@ -126,6 +126,17 @@ def main() -> None:
     theme_improvement = load(root, "theme_classifier_improvement_metrics.json")
     qualitative = load(root, "qualitative_metrics.json")
     efficiency = load(root, "efficiency_metrics.json")
+    judged_pairs = retrieval.get("judged_pairs")
+    if judged_pairs is None:
+        reference_pool = json.loads(
+            (Path(__file__).with_name("data") / "retrieval_benchmark_pool.json").read_text(
+                encoding="utf-8"
+            )
+        )
+        judged_pairs = sum(
+            len(set().union(*[set(ids) for ids in run["methods"].values()]))
+            for run in reference_pool["runs"]
+        )
     retrieval_plot(root, retrieval)
     theme_plot(root, themes)
     theme_improvement_plot(root, theme_improvement)
@@ -155,10 +166,7 @@ def main() -> None:
         "schema_version": "1.0",
         "retrieval": {
             "query_count": retrieval["query_count"],
-            "judged_pairs": sum(
-                len(set().union(*[set(ids) for ids in run["methods"].values()]))
-                for run in load(root, "retrieval_pool.json")["runs"]
-            ),
+            "judged_pairs": judged_pairs,
             "semantic_only": retrieval["macro_metrics"]["semantic_only"],
             "metadata_plus_semantic": retrieval["macro_metrics"]["metadata_plus_semantic"],
             "metadata_plus_semantic_reranked": retrieval["macro_metrics"]["metadata_plus_semantic_reranked"],

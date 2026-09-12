@@ -244,13 +244,41 @@ def score(output_root: Path) -> None:
 
 
 def score_development(output_root: Path) -> None:
-    template = json.loads(
-        (output_root / "theme_annotations_template.json").read_text(encoding="utf-8")
-    )
     annotations = json.loads(
         (DATA_ROOT / "theme_annotations.json").read_text(encoding="utf-8")
     )
-    result = _comparison(template, annotations)
+    frozen = json.loads(
+        (DATA_ROOT / "theme_development_predictions.json").read_text(
+            encoding="utf-8"
+        )
+    )
+    expected = {
+        review_id: set(themes)
+        for review_id, themes in annotations["manual_themes"].items()
+    }
+    predictions = {
+        side: {
+            review_id: set(themes)
+            for review_id, themes in frozen[side]["predictions"].items()
+        }
+        for side in ("baseline", "proposed")
+    }
+    if any(set(values) != set(expected) for values in predictions.values()):
+        raise ValueError("Frozen predictions do not cover the development sample")
+    result = {
+        "schema_version": "1.0",
+        "annotation_protocol": annotations["annotation_protocol"],
+        "sample_selection": annotations["sample_selection"],
+        "sample_size": len(expected),
+        **{
+            side: {
+                "classifier_version": frozen[side]["classifier_version"],
+                "metrics": multilabel_metrics(expected, predictions[side]),
+                "errors": _errors(expected, predictions[side]),
+            }
+            for side in ("baseline", "proposed")
+        },
+    }
     (output_root / "theme_classifier_development_metrics.json").write_text(
         json.dumps(result, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
         encoding="utf-8",

@@ -1,0 +1,315 @@
+{
+    "baseline":  {
+                     "classifier_version":  "rules-pt-v2",
+                     "predictions":  {
+                                         "699b866b71b5ad31f1faa2b1ab4fe1a6":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "070db8ec4ab348d7c6c594657b22a122":  [
+                                                                                  "damaged_or_defective",
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "8ae9f67af59211a3ada150bf630e6772":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "1e944efcd10b304599ed11e2896531bb":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "cdc1b6ec2fea7686b1db98b5d66bc931":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "c163c72f6684064dd9c10f0e26d63282":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "7d8d252cc0ae002b13db033ec1cd9dcb":  [
+                                                                                  "delivery_delay"
+                                                                              ],
+                                         "11912dbae5f169782098a20fc51c0b33":  [
+                                                                                  "delivery_delay",
+                                                                                  "quality_or_expectation",
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "9c16d321d03cdd6baabec119323b4dfc":  [
+                                                                                  "delivery_delay",
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "96667382e8a1867dcae942a21d7e02f3":  [
+                                                                                  "delivery_delay",
+                                                                                  "non_delivery",
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "393d4ccebffa1f16690ddd3b0f8081ee":  [
+                                                                                  "delivery_delay"
+                                                                              ],
+                                         "cd76169860187096ad46036ee35b7706":  [
+                                                                                  "delivery_delay"
+                                                                              ],
+                                         "c6db613e18ea44aa7d2cc3257335c378":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "5ac8391bcea66a00feb352bf52bd880b":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "78707a3b34c512b7c5fd440d0d1a0d83":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "e573b6fc2883af0bc91b8d9eb2edb47a":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "e54b202fa2c98269cb62919592b1cdea":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "df0713b5a0450a8719298242202909b7":  [
+                                                                                  "non_delivery",
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "13f1b76f5fb806e49783206524a7c7c4":  [
+                                                                                  "other"
+                                                                              ],
+                                         "192f1e65a1f91e0c15397c3a5255c151":  [
+                                                                                  "other"
+                                                                              ],
+                                         "94ab5086e73bb06e2dcb2817806d4efb":  [
+                                                                                  "other"
+                                                                              ],
+                                         "747e8c48ec69d0b01b84f102168d14e3":  [
+                                                                                  "other"
+                                                                              ],
+                                         "7ad1876b54f1dca63ab3d97a6bd12935":  [
+                                                                                  "other"
+                                                                              ],
+                                         "7fc9322b4aa0f81bbb91030fb2a81d03":  [
+                                                                                  "other"
+                                                                              ],
+                                         "731f596695417bf4ddceeea2f8e0cd70":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "6d6af5fc6dc6f0365960d3b32adb962e":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "e54fc85047a86ffa46e84877c5d9464b":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "c4a9af87a8aa1fb1bbff8073e4bf8fcd":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "d87c687dd8b02f8ada8388b7509a5040":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "9a9bb5e2d9b2b85cbdb3c6fa62941b8b":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "a98aa3817c5f5df580302a49f1b3a5a6":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "b0aa160effc1874975ae8c4ebda3e5ad":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "870c1a1f2c666e7344ea4decf153317a":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "ac03ad6b43cba822aee617cff5cb3fa1":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "852118414cff80900457523d7bcc8f5f":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "3b4189089996e8f0036b1666c2abd040":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "8e43ee5c3915f1ab07f7226e109d2da3":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "2d4a15e2a40b8753501ac47f240a5b2a":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "babb94176a66914e9df4d405e690cd93":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "bad8343ed8e69ffedba9ff0c08b2f182":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "3ec81f176ddb0b7cbfed70fc054c01d2":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "da5b5825c706fcb2e08415e570ca1190":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "e62ded5e4a57e75b43d54d3cf780f121":  [
+                                                                                  "wrong_or_missing_item",
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "4e65e030b0bffa773b580912f971a992":  [
+                                                                                  "wrong_or_missing_item"
+                                                                              ],
+                                         "24663605f65e4c30723e12dd4721b923":  [
+                                                                                  "wrong_or_missing_item",
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "840989907fd522f373d46575d0f14b9b":  [
+                                                                                  "service_or_refund",
+                                                                                  "wrong_or_missing_item"
+                                                                              ],
+                                         "5bc8649ac4ba90984d4f2e009d1ce7ea":  [
+                                                                                  "wrong_or_missing_item"
+                                                                              ],
+                                         "f8f15ca7f5c4b2dd76250f7201748b7e":  [
+                                                                                  "wrong_or_missing_item"
+                                                                              ]
+                                     }
+                 },
+    "proposed":  {
+                     "classifier_version":  "rules-pt-v3",
+                     "predictions":  {
+                                         "699b866b71b5ad31f1faa2b1ab4fe1a6":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "070db8ec4ab348d7c6c594657b22a122":  [
+                                                                                  "wrong_or_missing_item",
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "8ae9f67af59211a3ada150bf630e6772":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "1e944efcd10b304599ed11e2896531bb":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "cdc1b6ec2fea7686b1db98b5d66bc931":  [
+                                                                                  "damaged_or_defective"
+                                                                              ],
+                                         "c163c72f6684064dd9c10f0e26d63282":  [
+                                                                                  "damaged_or_defective",
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "7d8d252cc0ae002b13db033ec1cd9dcb":  [
+                                                                                  "delivery_delay",
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "11912dbae5f169782098a20fc51c0b33":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "9c16d321d03cdd6baabec119323b4dfc":  [
+                                                                                  "other"
+                                                                              ],
+                                         "96667382e8a1867dcae942a21d7e02f3":  [
+                                                                                  "delivery_delay",
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "393d4ccebffa1f16690ddd3b0f8081ee":  [
+                                                                                  "other"
+                                                                              ],
+                                         "cd76169860187096ad46036ee35b7706":  [
+                                                                                  "delivery_delay"
+                                                                              ],
+                                         "c6db613e18ea44aa7d2cc3257335c378":  [
+                                                                                  "other"
+                                                                              ],
+                                         "5ac8391bcea66a00feb352bf52bd880b":  [
+                                                                                  "other"
+                                                                              ],
+                                         "78707a3b34c512b7c5fd440d0d1a0d83":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "e573b6fc2883af0bc91b8d9eb2edb47a":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "e54b202fa2c98269cb62919592b1cdea":  [
+                                                                                  "non_delivery"
+                                                                              ],
+                                         "df0713b5a0450a8719298242202909b7":  [
+                                                                                  "non_delivery",
+                                                                                  "wrong_or_missing_item"
+                                                                              ],
+                                         "13f1b76f5fb806e49783206524a7c7c4":  [
+                                                                                  "other"
+                                                                              ],
+                                         "192f1e65a1f91e0c15397c3a5255c151":  [
+                                                                                  "other"
+                                                                              ],
+                                         "94ab5086e73bb06e2dcb2817806d4efb":  [
+                                                                                  "other"
+                                                                              ],
+                                         "747e8c48ec69d0b01b84f102168d14e3":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "7ad1876b54f1dca63ab3d97a6bd12935":  [
+                                                                                  "other"
+                                                                              ],
+                                         "7fc9322b4aa0f81bbb91030fb2a81d03":  [
+                                                                                  "other"
+                                                                              ],
+                                         "731f596695417bf4ddceeea2f8e0cd70":  [
+                                                                                  "other"
+                                                                              ],
+                                         "6d6af5fc6dc6f0365960d3b32adb962e":  [
+                                                                                  "other"
+                                                                              ],
+                                         "e54fc85047a86ffa46e84877c5d9464b":  [
+                                                                                  "other"
+                                                                              ],
+                                         "c4a9af87a8aa1fb1bbff8073e4bf8fcd":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "d87c687dd8b02f8ada8388b7509a5040":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "9a9bb5e2d9b2b85cbdb3c6fa62941b8b":  [
+                                                                                  "other"
+                                                                              ],
+                                         "a98aa3817c5f5df580302a49f1b3a5a6":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "b0aa160effc1874975ae8c4ebda3e5ad":  [
+                                                                                  "other"
+                                                                              ],
+                                         "870c1a1f2c666e7344ea4decf153317a":  [
+                                                                                  "other"
+                                                                              ],
+                                         "ac03ad6b43cba822aee617cff5cb3fa1":  [
+                                                                                  "other"
+                                                                              ],
+                                         "852118414cff80900457523d7bcc8f5f":  [
+                                                                                  "quality_or_expectation"
+                                                                              ],
+                                         "3b4189089996e8f0036b1666c2abd040":  [
+                                                                                  "other"
+                                                                              ],
+                                         "8e43ee5c3915f1ab07f7226e109d2da3":  [
+                                                                                  "other"
+                                                                              ],
+                                         "2d4a15e2a40b8753501ac47f240a5b2a":  [
+                                                                                  "other"
+                                                                              ],
+                                         "babb94176a66914e9df4d405e690cd93":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "bad8343ed8e69ffedba9ff0c08b2f182":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "3ec81f176ddb0b7cbfed70fc054c01d2":  [
+                                                                                  "uncertain"
+                                                                              ],
+                                         "da5b5825c706fcb2e08415e570ca1190":  [
+                                                                                  "other"
+                                                                              ],
+                                         "e62ded5e4a57e75b43d54d3cf780f121":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "4e65e030b0bffa773b580912f971a992":  [
+                                                                                  "other"
+                                                                              ],
+                                         "24663605f65e4c30723e12dd4721b923":  [
+                                                                                  "wrong_or_missing_item"
+                                                                              ],
+                                         "840989907fd522f373d46575d0f14b9b":  [
+                                                                                  "service_or_refund"
+                                                                              ],
+                                         "5bc8649ac4ba90984d4f2e009d1ce7ea":  [
+                                                                                  "other"
+                                                                              ],
+                                         "f8f15ca7f5c4b2dd76250f7201748b7e":  [
+                                                                                  "wrong_or_missing_item"
+                                                                              ]
+                                     }
+                 }
+}

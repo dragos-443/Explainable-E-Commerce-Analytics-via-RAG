@@ -1,0 +1,727 @@
+{
+  "candidate_k": 50,
+  "evidence_language": "pt",
+  "query_count": 20,
+  "query_language": "it",
+  "recall_definition": "recall within the complete judged pool of both top-k runs",
+  "reranker": {
+    "model": "cross-encoder/mmarco-mMiniLMv2-L12-H384-v1",
+    "revision": "d4be7629a38de7d68378c2f0de8d7ddd8cd756dd"
+  },
+  "runs": [
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "8341c8e936454d7de07e3c4e0381057d",
+          "8deb752bad6ec4f8e81d4bee4f370db2",
+          "4c2ab64ffc9119884d87d90bf9d630c3",
+          "4966a0af44d9ad8f87d9263c8bacc9dc",
+          "1856e1f2326a0ce3da86525e55b5c056"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "7c8154d29d239b02ad0e8f2dcdf3261a",
+          "4c2ab64ffc9119884d87d90bf9d630c3",
+          "b28309e8253951a954123e039d3242f7",
+          "71ec22fa39d7c8cd3cc365296e7bc178",
+          "1aa8f6134b5f4b2a4b00161dccd44828"
+        ],
+        "semantic_only": [
+          "8341c8e936454d7de07e3c4e0381057d",
+          "8deb752bad6ec4f8e81d4bee4f370db2",
+          "4c2ab64ffc9119884d87d90bf9d630c3",
+          "d6c368b77a772223a89fce373e0c103c",
+          "4966a0af44d9ad8f87d9263c8bacc9dc"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "non_delivery"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "non_delivery_general",
+        "question_it": "Quali recensioni segnalano che il cliente non ha mai ricevuto il proprio ordine?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "84d15544e1fd5221b812cda0d23ae242",
+          "9b7baa246285f600e6ef22486099f29e",
+          "65a9d44329849dde65f8a92b8f150d9e",
+          "0cac8fef1bcba2a3335b132807520f6d",
+          "e85fe5bf365daf490df3bd3813e89f39"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "5c21268a0f8bae726edb3aa4db3e6bde",
+          "833164c13e3b8b4d46ab310f3543bfdf",
+          "045d330f147f09c3bd2426266ec5d414",
+          "319a00108e04fc59298abd67b599b264",
+          "889524292ec20dae65a3921f855afc8a"
+        ],
+        "semantic_only": [
+          "0fc42b14539f4177f534382d69d82d3c",
+          "95e7f613e3dfe80a79306a8c80084739",
+          "ab796da379bad664fa884f34711b0ca8",
+          "3ffed17f5010b9c6d33706b790732482",
+          "72926e5236768ffc912764ca429d0e00"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "delivery_delay"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "office_furniture"
+        },
+        "query_id": "office_furniture_delay",
+        "question_it": "Quali recensioni segnalano ritardi nella consegna di mobili per ufficio rispetto al termine previsto?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "bb73090765253176ef9a3984911870f9",
+          "168863de0e60d3df41d90a063fba7f93",
+          "8deb752bad6ec4f8e81d4bee4f370db2",
+          "f2c45cbb5f5123e47d5012b9de3ce3e6",
+          "e20f4db0ade220f1dd5c4535d60afcac"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "cb770d3c460119845882aa6a04606e56",
+          "d138272c90421b6c508f9d52999f05f0",
+          "6afb9abc15ff32b17abc8f3f819ade1f",
+          "778826f9af6467ff6268bbcf436cd3c5",
+          "d733618a1d2e550024ca416c715dbf9c"
+        ],
+        "semantic_only": [
+          "bb73090765253176ef9a3984911870f9",
+          "168863de0e60d3df41d90a063fba7f93",
+          "8deb752bad6ec4f8e81d4bee4f370db2",
+          "f2c45cbb5f5123e47d5012b9de3ce3e6",
+          "e20f4db0ade220f1dd5c4535d60afcac"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "damaged_or_defective"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "damaged_product",
+        "question_it": "Quali recensioni segnalano un prodotto arrivato rotto o danneggiato?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "6b48d00c41470b7046e7ded50326d1c9",
+          "014552bc1539eed96d4937a07ef1ba03",
+          "ed19d7f5da6c2c6d4d79f4ec2425f63f",
+          "b350f1b9ce136bb7ccb02ac6398106fb",
+          "c94fe7161f7932281babee672d4b4248"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "c099aafb6db35704451859b711b53425",
+          "6137736e63c63b146f3012dd3419e657",
+          "8eb61fc560a7479dfe176b8ef1ccfbfa",
+          "6f97d8b5afaf78f8658cfc0634840b40",
+          "374ff0f46ff482b92a8794eda1c7c47f"
+        ],
+        "semantic_only": [
+          "6b48d00c41470b7046e7ded50326d1c9",
+          "014552bc1539eed96d4937a07ef1ba03",
+          "ed19d7f5da6c2c6d4d79f4ec2425f63f",
+          "b350f1b9ce136bb7ccb02ac6398106fb",
+          "c94fe7161f7932281babee672d4b4248"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "wrong_or_missing_item"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "wrong_product",
+        "question_it": "Quali recensioni segnalano la consegna di un prodotto diverso da quello ordinato?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "7b793a28078f50f855c00ade5eff961d",
+          "5d55061ec2b76e615d72ade557e73eb3",
+          "bb73090765253176ef9a3984911870f9",
+          "c66e6da7d72eee6a37f0f1f8abe7a105",
+          "f80371a14c76eb84cd44b8767812544e"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "0a6e2e7c3e4365bcac45d499b1a9d6c7",
+          "8cecdf29b454546b63f5adcec4f8746a",
+          "7523fe749b1e18486735621a2f2e3c25",
+          "981c2269f16246ed60fb6b5b570f1024",
+          "ae93f71c72582cf1a1a2f65fb687b419"
+        ],
+        "semantic_only": [
+          "7b793a28078f50f855c00ade5eff961d",
+          "5d55061ec2b76e615d72ade557e73eb3",
+          "bb73090765253176ef9a3984911870f9",
+          "c66e6da7d72eee6a37f0f1f8abe7a105",
+          "f80371a14c76eb84cd44b8767812544e"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "service_or_refund"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "refund_missing",
+        "question_it": "Quali recensioni segnalano un rimborso richiesto ma non ricevuto?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "2d0a07007cc84621a2bc694505be4036",
+          "802ce6588b4e35e73e7e47fb0a5b538e",
+          "2c95346184cc63f95c77f0253817a591",
+          "3512ff1323c91ab59f353443105d7cf8",
+          "b509bc7debfe2738d062146b9d43b096"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "54c5f5cb6ad288f6825511c37dab63ca",
+          "55505b569f79dc826cf7de4e29e0fdf0",
+          "0dc592136d4b2753628f84a5cffcdd9c",
+          "b12ecc5278a6196182f5c4ffe1a4973e",
+          "9608ca40258158e77a6a83b33f30ada6"
+        ],
+        "semantic_only": [
+          "2d0a07007cc84621a2bc694505be4036",
+          "802ce6588b4e35e73e7e47fb0a5b538e",
+          "2c95346184cc63f95c77f0253817a591",
+          "3512ff1323c91ab59f353443105d7cf8",
+          "b509bc7debfe2738d062146b9d43b096"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "quality_or_expectation"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "poor_quality",
+        "question_it": "Quali recensioni segnalano una qualità del prodotto pessima o inferiore alle aspettative?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "9e7027584b883a566624bda9af024c78",
+          "bcf1f7d1fdf796f91d59cdfab8798d7a",
+          "8f9772ae7dec3db4af0418fd7fb1be4d",
+          "782b78cc47b6ba684246ff9b83bb3e01",
+          "5ddc8819694d30d2b784f813f52a24f8"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "bcf1f7d1fdf796f91d59cdfab8798d7a",
+          "5b69543fbc57c21a7935d7b849d89322",
+          "4a8d739553fd90d040bda4572aab5bbf",
+          "1472f49960a8c354feaa6201c9c16dea",
+          "2e3a02fc80a0d4222a4c9817a4180016"
+        ],
+        "semantic_only": [
+          "38906e7be876bb865ed0ca3238d140fa",
+          "4c2ab64ffc9119884d87d90bf9d630c3",
+          "b738a3631bdb181519f3a9387833bc1d",
+          "bccd32a70c603fab72f12d63863aee68",
+          "7c550b9bf9cd966aaf4d713682fe63da"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "wrong_or_missing_item"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "bed_bath_table"
+        },
+        "query_id": "bed_bath_missing_parts",
+        "question_it": "Quali recensioni segnalano prodotti per la casa arrivati incompleti o con pezzi mancanti?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "bf04cefb8f9cac1da1988498fb888ad9",
+          "dd093426fbb6f0b57411d21c0423a5c0",
+          "16542dee3cb122659e9ef33431f5f4a6",
+          "803b03abd2372308b85988608e895d3d",
+          "2015db117969611f3b471e50385a90e2"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "3eedb3f816f188fa1928d07b3efd9d82",
+          "06f44964e1e024d7772ae766434e88fa",
+          "3479b109d365da65ca7f35045bc96868",
+          "9325dc8071e925fe198df567ad98a265",
+          "693507f76c4fb85033d9ff4366e3a6dc"
+        ],
+        "semantic_only": [
+          "34da88737ee5e9bfdbb66b25fd897ba1",
+          "dd093426fbb6f0b57411d21c0423a5c0",
+          "740da8caefd71c1e39dfbe4fbf732176",
+          "b28309e8253951a954123e039d3242f7",
+          "b738a3631bdb181519f3a9387833bc1d"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "damaged_or_defective"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "computers_accessories"
+        },
+        "query_id": "computer_defective",
+        "question_it": "Quali recensioni segnalano accessori per computer difettosi o non funzionanti?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "3ba1a7ddae6d123a1d54e7f6c9fac135",
+          "da019fba5d8be9427b00678f9cc80f51",
+          "108195606e37780c4335f0725c4c7e3e",
+          "4589b661245306b0f4ce2ee972bbf1ab",
+          "36c1ce034b007259eadba974829421d8"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "f02d4978f58368f3346d8450d52f0ba2",
+          "a1074ef6728469383f2a8bf58fd98e51",
+          "b91ec4b047be78b2822cf8aaf61bf024",
+          "108195606e37780c4335f0725c4c7e3e",
+          "25317866bc04a5e3514e4a86adbaa9c6"
+        ],
+        "semantic_only": [
+          "0a294a81b7c6835acbe7ffb85f223231",
+          "c1082b5d880897e6ecc8cc4ac6eb44cb",
+          "5cebd0cb812691be648e2be73527bfce",
+          "1f6cb0a32c3185a692e90d9c41f5a35b",
+          "d89514564e2fdf256486b50b8c52e127"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "delivery_delay"
+        ],
+        "filters": {
+          "customer_state": "SP",
+          "max_review_score": 2
+        },
+        "query_id": "late_delivery_sp",
+        "question_it": "Quali recensioni dello stato di San Paolo segnalano forti ritardi nella consegna?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "7b793a28078f50f855c00ade5eff961d",
+          "ec2a789a7b47bf173d5aba7fcb3a10f8",
+          "679908e3991c84ed3c7fb0bd5bcac33e",
+          "a36ae1ce75318daff3ec9d9300aa0ecf",
+          "bf8ad702d153b8c1c73328591242c7d1"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "f8520bfca96df761faec14a2937e7075",
+          "f48a27d9d0d8528409dd8fc662f9d506",
+          "b19486fe3edae323d9e061d040433dbf",
+          "892178fd4fe12fa030f5150314687eef",
+          "285b75d9148dc5a604d1c42541224f09"
+        ],
+        "semantic_only": [
+          "7b793a28078f50f855c00ade5eff961d",
+          "ec2a789a7b47bf173d5aba7fcb3a10f8",
+          "679908e3991c84ed3c7fb0bd5bcac33e",
+          "a36ae1ce75318daff3ec9d9300aa0ecf",
+          "bf8ad702d153b8c1c73328591242c7d1"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "service_or_refund"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "cancel_refund",
+        "question_it": "Quali recensioni segnalano che, dopo la cancellazione dell'ordine, il rimborso non è arrivato?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "3b77d79b82627d331ac57dd219190025",
+          "9b3c0998e6c9cf7d5e927bfbe6f2f045",
+          "5657f8f8f0d3c0ef4b541696c24245ff",
+          "323ed96df39bd0d9fb54c0f7092e689b",
+          "4c5cafe56f365c7554aa09abb3c929c7"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "fc79193a78585c765288d1c233c81051",
+          "b4f1cee548fca64f9edaa02b285308ce",
+          "79a7da2bfdd677babad967ae4f6cc46c",
+          "51533acfb4fcd3a80f17c0537668c2cf",
+          "048eff7f562e1d70b62810ce9cac517c"
+        ],
+        "semantic_only": [
+          "10602cd73935e8ca5dac8811856bcabb",
+          "f62e21bd38a4ec9d8db698fb82f5faa4",
+          "1af13f6906d8d8faa6caf1bdd0545d59",
+          "d12c91a0e883f20178286e8a19b97a24",
+          "2fa74fcc8f4cbf5d6976be6fea5b86f8"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "quality_or_expectation"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "furniture_decor"
+        },
+        "query_id": "furniture_not_as_photo",
+        "question_it": "Quali recensioni segnalano mobili ricevuti diversi dalla foto o dalla descrizione?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "b1215b7be082fef3dd617160eeb991d5",
+          "c7e792059a7414b7c006de1c2da5399b",
+          "07bda9a8f3c45c5010fab2651003fd96",
+          "ff8b888d506efbff7946a52199fabcc5",
+          "9eab0bc236ba1fa442c2ca289cc069b3"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "b1215b7be082fef3dd617160eeb991d5",
+          "5daed8162373d5914d7873de82d86355",
+          "810e185ae9a3f28e28b7e71c2f301ac6",
+          "ff8b888d506efbff7946a52199fabcc5",
+          "527afa9159b9b755a60933e8f41bc34a"
+        ],
+        "semantic_only": [
+          "34da88737ee5e9bfdbb66b25fd897ba1",
+          "f495b89455116ac326d54a32ee939a00",
+          "7c550b9bf9cd966aaf4d713682fe63da",
+          "07bda9a8f3c45c5010fab2651003fd96",
+          "b28309e8253951a954123e039d3242f7"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "damaged_or_defective"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "watches_gifts"
+        },
+        "query_id": "broken_watch",
+        "question_it": "Quali recensioni segnalano orologi arrivati rotti o non funzionanti?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "7eeaa7983456c7132e5b505caf253f41",
+          "f62e21bd38a4ec9d8db698fb82f5faa4",
+          "5808ad5da44e92c2d7d60b57e961b57f",
+          "7c070900e55b6e95aec2f71b87522254",
+          "05809c068ac8f403afb680d5dfe5867c"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "af01feb1cdea736410d350c65e657e04",
+          "0afdaef42f4cef6492069412f42443d3",
+          "a7ff73bc13eef2736b95d913a11b6f48",
+          "4f611351fcbae81bdd205a9d1365e6cb",
+          "2275289f8c8b766d77b1d501f40a93cb"
+        ],
+        "semantic_only": [
+          "8edf7fb0249ccbee18ac0e6a261440dc",
+          "8deb752bad6ec4f8e81d4bee4f370db2",
+          "5448e4fcf8d62c42d05f9df434e765ce",
+          "ab47c26aa90c1758134c77bebe6cdef1",
+          "71ec22fa39d7c8cd3cc365296e7bc178"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "wrong_or_missing_item"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "health_beauty"
+        },
+        "query_id": "health_beauty_missing_item",
+        "question_it": "Quali recensioni segnalano articoli mancanti nei pacchi di prodotti di bellezza?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "aed28228cab25f2cbc325e1d755155a3",
+          "36ad6edf206cc33e3c28717f38bae8d9",
+          "343c75b23341ab7a22e874d9bcf803ee",
+          "a165d8fa906a021fdd8f500cdfe5da1a",
+          "cfeedaa7fa830ea511194cbfd3ac0373"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "cbc6f7cd85fd98b26a724ccb2e9c74b2",
+          "f78a548b4b765e2b570f3bbf71776b9a",
+          "ff5d51348b36d109744c450c509f5270",
+          "f9fe37d91c506b29a0b4d9107f667bde",
+          "efb0886cab0e624dbafaebbdc9b58a65"
+        ],
+        "semantic_only": [
+          "8d968d9669c06182a369aaf670761799",
+          "b28309e8253951a954123e039d3242f7",
+          "1856e1f2326a0ce3da86525e55b5c056",
+          "aed28228cab25f2cbc325e1d755155a3",
+          "ab47c26aa90c1758134c77bebe6cdef1"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "non_delivery"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "sports_leisure"
+        },
+        "query_id": "sports_non_delivery",
+        "question_it": "Quali recensioni segnalano ordini di articoli sportivi mai consegnati?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "b738a3631bdb181519f3a9387833bc1d",
+          "01206bbbfcfe2d85dc0c646a8ddb73d4",
+          "d6a5ec076e4c05013876308faf6cdc8b",
+          "8cecdf29b454546b63f5adcec4f8746a",
+          "f5073b007d91b31d2153ae7f6452b651"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "3ad650dcbe0dd0a09359cd3f660b7dec",
+          "a8f1111819d30ddcba9e98eceebbdb27",
+          "07bda9a8f3c45c5010fab2651003fd96",
+          "d6a5ec076e4c05013876308faf6cdc8b",
+          "01206bbbfcfe2d85dc0c646a8ddb73d4"
+        ],
+        "semantic_only": [
+          "b738a3631bdb181519f3a9387833bc1d",
+          "01206bbbfcfe2d85dc0c646a8ddb73d4",
+          "d6a5ec076e4c05013876308faf6cdc8b",
+          "8cecdf29b454546b63f5adcec4f8746a",
+          "f5073b007d91b31d2153ae7f6452b651"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "service_or_refund"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "support_no_response",
+        "question_it": "Quali recensioni segnalano che il servizio clienti non risponde e non risolve il problema?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "8865969b57001ecdf1e67b27f46e4a89",
+          "5b357b7623dc2bcf4ac89378b054c2e5",
+          "b6cd48902c1c5a93fb7cc4a63f1dae83",
+          "4c9308a7dc00c4e59f85b06ca8f34b70",
+          "f185ea476e495b944320aa2ea96c4ae4"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "8a3a5868150b304bbe274ff108771a2e",
+          "14cf2de9e9dedefd915cf9f6c7a3d692",
+          "970bd1fd0482b3e0e15769800de6a7a5",
+          "0e5b8e7563cf9693ea9043d42c81a09e",
+          "19c8218a64491d924ba8e1c0474accea"
+        ],
+        "semantic_only": [
+          "9cfd1ab8f5ae6226b8bd2077f4a9fe41",
+          "d28dadae6398b459a81d87981cdd3d98",
+          "c3b4d76dbc3d03583ad7f6131d37d638",
+          "e057360360ac06fb9abc25efe4505413",
+          "5b357b7623dc2bcf4ac89378b054c2e5"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "delivery_delay"
+        ],
+        "filters": {
+          "end_month": "2018-03",
+          "max_review_score": 2,
+          "start_month": "2018-03"
+        },
+        "query_id": "march_2018_delay",
+        "question_it": "Quali recensioni di marzo 2018 segnalano ritardi rispetto alla data di consegna promessa?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "c3299867b627758579839697206433a8",
+          "3512ff1323c91ab59f353443105d7cf8",
+          "020d4d516c96d896641dd6faa5325160",
+          "acd3cf00b155fe49af384b283655ea4b",
+          "6f112dbce323fb891889b5ed1d1df783"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "eb508a1736bce043a9ca1759567e89d9",
+          "b743c304432494c0599e5992c6c70a73",
+          "3512ff1323c91ab59f353443105d7cf8",
+          "fffd68e8a9fb73a56a2f504011b0f1f1",
+          "7f45121d39a6318dff3f2fef124e542a"
+        ],
+        "semantic_only": [
+          "c8bb07efb7fa82eba86e029c80be5d9a",
+          "6ef374b3566dfa94768476de1e65a39e",
+          "8a47eab7ea3060310319c51f274603d7",
+          "89f6a3cc3320aed957a2743c90fe3d3e",
+          "6212a5aff5c82a4018f6aeed6e65e510"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "quality_or_expectation"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "housewares"
+        },
+        "query_id": "housewares_bad_material",
+        "question_it": "Quali recensioni segnalano articoli per la casa realizzati con materiali di qualità molto scarsa?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "07bda9a8f3c45c5010fab2651003fd96",
+          "8341c8e936454d7de07e3c4e0381057d",
+          "4a2342d04cde5e7736b53e012cd83c8b",
+          "8cecdf29b454546b63f5adcec4f8746a",
+          "7c8154d29d239b02ad0e8f2dcdf3261a"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "2d6ac45f859465b5c185274a1c929637",
+          "f0b8a0026b6c510825eef1286f2b27a5",
+          "fb7a20b2ddddef07d278997e18e1cd16",
+          "5148ad2bdca65375e9504355d79c6ad4",
+          "c7c623cd643523c4f570e2358dec9e61"
+        ],
+        "semantic_only": [
+          "07bda9a8f3c45c5010fab2651003fd96",
+          "8341c8e936454d7de07e3c4e0381057d",
+          "4a2342d04cde5e7736b53e012cd83c8b",
+          "8cecdf29b454546b63f5adcec4f8746a",
+          "7c8154d29d239b02ad0e8f2dcdf3261a"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "wrong_or_missing_item"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "incomplete_order",
+        "question_it": "Quali recensioni segnalano ordini arrivati incompleti o con parte della merce mancante?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "9a46fcaa0f3e5f56ad82a3895a34b7cb",
+          "bb73090765253176ef9a3984911870f9",
+          "a765ade5a94437b1d9dd9969f30149f2",
+          "f7c4ece51a1f0f3ebf9a67db7df64036",
+          "c66e6da7d72eee6a37f0f1f8abe7a105"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "197b3a4e0835ef2c24b3186f5197bea6",
+          "931ca2b73c9eda0996ee23bfb16a106e",
+          "fd42d8c4319a7ba48242a3844c6f77e7",
+          "8cecdf29b454546b63f5adcec4f8746a",
+          "9ecb6d55d9eb141673ed721d96300722"
+        ],
+        "semantic_only": [
+          "9a46fcaa0f3e5f56ad82a3895a34b7cb",
+          "bb73090765253176ef9a3984911870f9",
+          "a765ade5a94437b1d9dd9969f30149f2",
+          "f7c4ece51a1f0f3ebf9a67db7df64036",
+          "c66e6da7d72eee6a37f0f1f8abe7a105"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "service_or_refund"
+        ],
+        "filters": {
+          "max_review_score": 2
+        },
+        "query_id": "money_not_returned",
+        "question_it": "Quali recensioni segnalano che il negozio non ha restituito i soldi richiesti?"
+      }
+    },
+    {
+      "methods": {
+        "metadata_plus_semantic": [
+          "ecd8631058ae1b6118ba6ac255f2b6fd",
+          "319a00108e04fc59298abd67b599b264",
+          "7c550b9bf9cd966aaf4d713682fe63da",
+          "f387b630a00bf44ffb7ac1d95534ad4f",
+          "c88aa8d95d1096c2859b67d46bed0bc5"
+        ],
+        "metadata_plus_semantic_reranked": [
+          "319a00108e04fc59298abd67b599b264",
+          "ecd8631058ae1b6118ba6ac255f2b6fd",
+          "e85fe5bf365daf490df3bd3813e89f39",
+          "baf908e16982c8277ad48c00fd87ad25",
+          "5914714c08935047ca6790f270d79f95"
+        ],
+        "semantic_only": [
+          "3b77d79b82627d331ac57dd219190025",
+          "b28309e8253951a954123e039d3242f7",
+          "8d968d9669c06182a369aaf670761799",
+          "f495b89455116ac326d54a32ee939a00",
+          "0c006526930f7a0c3c01424836664db1"
+        ]
+      },
+      "query": {
+        "expected_aspects": [
+          "non_delivery"
+        ],
+        "filters": {
+          "max_review_score": 2,
+          "product_category": "office_furniture"
+        },
+        "query_id": "office_furniture_non_delivery",
+        "question_it": "Quali recensioni segnalano mobili per ufficio ordinati ma mai arrivati?"
+      }
+    }
+  ],
+  "schema_version": "1.0",
+  "top_k": 5
+}
