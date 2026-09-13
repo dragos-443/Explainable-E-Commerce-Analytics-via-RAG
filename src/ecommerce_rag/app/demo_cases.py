@@ -101,11 +101,11 @@ THEMATIC_EXAMPLE_CASES: Tuple[DemoCase, ...] = (
     ),
     DemoCase(
         case_id="office_furniture_service_refund",
-        title="Assistenza e rimborsi per i mobili da ufficio",
+        title="Assistenza o rimborso non risolti per i mobili da ufficio",
         kind="thematic_focus",
         question=(
-            "Quali problemi di assistenza o rimborso emergono nelle recensioni "
-            "negative dei mobili per ufficio?"
+            "Quali richieste di assistenza o rimborso rimaste senza soluzione "
+            "emergono nelle recensioni negative dei mobili per ufficio?"
         ),
         expected_intent="analyze_low_rating_complaints",
         expected_theme="service_or_refund",

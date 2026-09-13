@@ -29,7 +29,11 @@ THEME_RETRIEVAL_DESCRIPTIONS_IT = {
     "wrong_or_missing_item": "prodotto errato, diverso, incompleto o con parti mancanti",
     "damaged_or_defective": "prodotto danneggiato, rotto, difettoso o non funzionante",
     "quality_or_expectation": "qualità scadente o prodotto diverso da foto, descrizione e aspettative",
-    "service_or_refund": "assistenza senza risposta, problema non risolto, reso o rimborso",
+    "service_or_refund": (
+        "assistenza già contattata ma senza risposta o soluzione; reso, cambio o "
+        "rimborso già richiesti ma rimasti senza esito, oppure denaro non restituito; "
+        "non una semplice intenzione di chiedere assistenza o rimborso"
+    ),
 }
 
 

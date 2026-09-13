@@ -1,0 +1,182 @@
+[
+  {
+    "query_id": "electronics_non_delivery",
+    "question_it": "Quali recensioni segnalano prodotti elettronici ordinati ma mai ricevuti?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "electronics", "max_review_score": 2}
+  },
+  {
+    "query_id": "toys_rj_non_delivery",
+    "question_it": "Quali clienti dello stato di Rio de Janeiro affermano di non aver mai ricevuto i giocattoli ordinati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "toys", "customer_state": "RJ", "max_review_score": 2}
+  },
+  {
+    "query_id": "baby_sp_non_delivery",
+    "question_it": "Quali recensioni di San Paolo segnalano articoli per bambini mai consegnati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "baby", "customer_state": "SP", "max_review_score": 2}
+  },
+  {
+    "query_id": "pet_shop_february_non_delivery",
+    "question_it": "Quali recensioni associate ad acquisti di febbraio 2018 segnalano prodotti per animali mai arrivati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "pet_shop", "start_month": "2018-02", "end_month": "2018-02", "max_review_score": 2}
+  },
+  {
+    "query_id": "auto_mg_non_delivery",
+    "question_it": "Quali recensioni del Minas Gerais segnalano accessori per auto non consegnati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "auto", "customer_state": "MG", "max_review_score": 2}
+  },
+  {
+    "query_id": "health_beauty_sp_delay",
+    "question_it": "Quali recensioni di San Paolo lamentano ritardi nella consegna di prodotti di salute e bellezza?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "health_beauty", "customer_state": "SP", "max_review_score": 2}
+  },
+  {
+    "query_id": "bed_bath_rj_delay",
+    "question_it": "Quali recensioni di Rio de Janeiro segnalano prodotti per letto, bagno e tavola arrivati oltre la data prevista?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "bed_bath_table", "customer_state": "RJ", "max_review_score": 2}
+  },
+  {
+    "query_id": "sports_pr_delay",
+    "question_it": "Quali clienti del Paraná riferiscono consegne in ritardo per articoli sportivi?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "sports_leisure", "customer_state": "PR", "max_review_score": 2}
+  },
+  {
+    "query_id": "garden_march_delay",
+    "question_it": "Quali recensioni associate ad acquisti di marzo 2018 segnalano ritardi nella consegna di attrezzi da giardino?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "garden_tools", "start_month": "2018-03", "end_month": "2018-03", "max_review_score": 2}
+  },
+  {
+    "query_id": "cool_stuff_mg_delay",
+    "question_it": "Quali recensioni del Minas Gerais indicano che articoli della categoria cool stuff sono arrivati in ritardo?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "cool_stuff", "customer_state": "MG", "max_review_score": 2}
+  },
+  {
+    "query_id": "electronics_wrong_item",
+    "question_it": "Quali recensioni segnalano prodotti elettronici diversi da quelli ordinati?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "electronics", "max_review_score": 2}
+  },
+  {
+    "query_id": "toys_missing_parts",
+    "question_it": "Quali recensioni segnalano giocattoli arrivati incompleti o con componenti mancanti?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "toys", "max_review_score": 2}
+  },
+  {
+    "query_id": "baby_missing_item",
+    "question_it": "Quali recensioni indicano che nell'ordine di articoli per bambini mancava parte della merce?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "baby", "max_review_score": 2}
+  },
+  {
+    "query_id": "auto_wrong_item",
+    "question_it": "Quali recensioni segnalano la consegna di un accessorio per auto errato o differente da quello acquistato?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "auto", "max_review_score": 2}
+  },
+  {
+    "query_id": "telephony_incomplete_order",
+    "question_it": "Quali recensioni segnalano ordini di telefonia consegnati solo in parte?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "telephony", "max_review_score": 2}
+  },
+  {
+    "query_id": "furniture_damaged",
+    "question_it": "Quali recensioni segnalano mobili o complementi d'arredo arrivati rotti o danneggiati?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "furniture_decor", "max_review_score": 2}
+  },
+  {
+    "query_id": "housewares_defective",
+    "question_it": "Quali recensioni segnalano articoli per la casa difettosi o inutilizzabili?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "housewares", "max_review_score": 2}
+  },
+  {
+    "query_id": "health_beauty_damaged",
+    "question_it": "Quali recensioni segnalano prodotti di salute o bellezza arrivati rotti, aperti o danneggiati?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "health_beauty", "max_review_score": 2}
+  },
+  {
+    "query_id": "auto_damaged",
+    "question_it": "Quali recensioni riferiscono accessori per auto arrivati danneggiati o non funzionanti?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "auto", "max_review_score": 2}
+  },
+  {
+    "query_id": "baby_defective",
+    "question_it": "Quali recensioni segnalano articoli per bambini difettosi, rotti o impossibili da utilizzare?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "baby", "max_review_score": 2}
+  },
+  {
+    "query_id": "electronics_refund_missing",
+    "question_it": "Quali recensioni segnalano rimborsi non ricevuti per prodotti elettronici restituiti o cancellati?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "electronics", "max_review_score": 2}
+  },
+  {
+    "query_id": "furniture_support_no_response",
+    "question_it": "Quali recensioni segnalano che l'assistenza non ha risposto a reclami relativi a mobili o complementi d'arredo?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "furniture_decor", "max_review_score": 2}
+  },
+  {
+    "query_id": "health_beauty_return_unresolved",
+    "question_it": "Quali recensioni descrivono resi o richieste di rimborso per prodotti di bellezza rimasti senza soluzione?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "health_beauty", "max_review_score": 2}
+  },
+  {
+    "query_id": "sports_support_unresolved",
+    "question_it": "Quali recensioni segnalano che l'assistenza non ha risolto un problema con un articolo sportivo?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "sports_leisure", "max_review_score": 2}
+  },
+  {
+    "query_id": "bed_bath_exchange_no_response",
+    "question_it": "Quali recensioni segnalano richieste di cambio o rimborso senza risposta per prodotti da letto, bagno e tavola?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "bed_bath_table", "max_review_score": 2}
+  },
+  {
+    "query_id": "electronics_poor_quality",
+    "question_it": "Quali recensioni descrivono prodotti elettronici di qualità molto inferiore alle aspettative?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "electronics", "max_review_score": 2}
+  },
+  {
+    "query_id": "toys_poor_material",
+    "question_it": "Quali recensioni segnalano giocattoli fragili o costruiti con materiali di scarsa qualità?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "toys", "max_review_score": 2}
+  },
+  {
+    "query_id": "baby_not_as_advertised",
+    "question_it": "Quali recensioni indicano che articoli per bambini erano diversi da foto, descrizione o aspettative?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "baby", "max_review_score": 2}
+  },
+  {
+    "query_id": "telephony_poor_quality",
+    "question_it": "Quali recensioni descrivono accessori di telefonia fragili o di pessima qualità?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "telephony", "max_review_score": 2}
+  },
+  {
+    "query_id": "auto_poor_quality",
+    "question_it": "Quali recensioni segnalano accessori per auto di qualità scadente o non conformi alla descrizione?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "auto", "max_review_score": 2}
+  }
+]

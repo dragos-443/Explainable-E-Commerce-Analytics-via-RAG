@@ -12,7 +12,7 @@ THEME_LABELS = {
     "damaged_or_defective": "Prodotto danneggiato o difettoso",
     "wrong_or_missing_item": "Prodotto errato o incompleto",
     "quality_or_expectation": "Qualità inferiore alle aspettative",
-    "service_or_refund": "Assistenza o rimborso",
+    "service_or_refund": "Assistenza o rimborso non risolti",
     "other": "Altro",
     "uncertain": "Tema incerto",
 }

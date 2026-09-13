@@ -91,7 +91,9 @@ def test_theme_retrieval_query_focuses_known_themes_only() -> None:
     focused = theme_retrieval_query(question, "service_or_refund")
 
     assert focused.startswith(question)
-    assert "assistenza senza risposta" in focused
+    assert "assistenza già contattata ma senza risposta" in focused
+    assert "rimborso già richiesti ma rimasti senza esito" in focused
+    assert "non una semplice intenzione" in focused
     assert theme_retrieval_query(question, "other") == question
 
 
