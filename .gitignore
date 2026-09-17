@@ -8,7 +8,6 @@
 /report.md
 /ROADMAP.md
 /AGENTS.md
-/README.md
 /docs/
 
 # Configurazione locale e file generati
@@ -17,8 +16,14 @@
 __pycache__/
 *.py[cod]
 /.pytest_cache/
+/derby.log
+/metastore_db/
 /.idea/
 /.vscode/
 
 # Risultati generati: da valutare per il versionamento a progetto concluso
 /reports/
+
+# Strumenti locali per l'esportazione del documento finale
+/scripts/export_report.ps1
+/scripts/reporting/
