@@ -21,7 +21,10 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("mode", choices=("collect", "score"))
     parser.add_argument("--environment", default="local")
     parser.add_argument("--top-k", type=int, default=5)
-    parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument(
+        "--output-root",
+        default="/workspace/reports/evaluation/retrieval/development-20",
+    )
     parser.add_argument(
         "--pool-source",
         choices=("reference", "latest"),

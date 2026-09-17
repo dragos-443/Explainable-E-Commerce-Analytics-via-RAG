@@ -10,7 +10,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$projectRoot = Split-Path -Parent $PSScriptRoot
+$projectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $reportRoot = Join-Path $projectRoot 'reports\aws\phase10'
 $statePath = Join-Path $reportRoot 'run_state.json'
 

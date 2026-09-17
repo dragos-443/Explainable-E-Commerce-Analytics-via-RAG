@@ -34,7 +34,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--repetitions", type=int, default=3)
     parser.add_argument(
         "--output-root",
-        default="/workspace/reports/evaluation/retrieval-holdout-30",
+        default="/workspace/reports/evaluation/retrieval/holdout-30",
     )
     return parser.parse_args()
 

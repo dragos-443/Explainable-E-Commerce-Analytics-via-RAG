@@ -6,16 +6,17 @@ import json
 from pathlib import Path
 
 
-ROOT = Path("/workspace/reports/evaluation/phase7")
+ROOT = Path("/workspace/reports/evaluation/core/phase7")
+RETRIEVAL_ROOT = Path("/workspace/reports/evaluation/retrieval/development-20")
 DATA_ROOT = Path("/workspace/src/ecommerce_rag/evaluation/data")
 
 
-def _load(name: str) -> dict:
-    return json.loads((ROOT / name).read_text(encoding="utf-8"))
+def _load(name: str, root: Path = ROOT) -> dict:
+    return json.loads((root / name).read_text(encoding="utf-8"))
 
 
 def test_cross_language_retrieval_compares_two_methods_on_judged_pool() -> None:
-    payload = _load("retrieval_metrics.json")
+    payload = _load("retrieval_metrics.json", RETRIEVAL_ROOT)
     baseline = payload["macro_metrics"]["semantic_only"]
     filtered = payload["macro_metrics"]["metadata_plus_semantic"]
     proposed = payload["macro_metrics"]["metadata_plus_semantic_reranked"]

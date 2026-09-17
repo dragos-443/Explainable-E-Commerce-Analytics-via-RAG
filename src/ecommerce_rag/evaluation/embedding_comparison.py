@@ -33,7 +33,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--batch-size", type=int, default=64)
     parser.add_argument(
         "--output-root",
-        default="/workspace/reports/evaluation/e5-base-comparison",
+        default="/workspace/reports/evaluation/comparisons/e5-base",
     )
     return parser.parse_args()
 

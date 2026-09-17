@@ -2,7 +2,7 @@
 param()
 
 $ErrorActionPreference = 'Stop'
-$projectRoot = Split-Path -Parent $PSScriptRoot
+$projectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $uiWasRunning = $false
 Push-Location $projectRoot
 
@@ -31,11 +31,11 @@ try {
     if ($LASTEXITCODE -ne 0) {
         throw 'Confronto LLM non riuscito.'
     }
-    Write-Host "Risultati disponibili in: $projectRoot\reports\evaluation\phase7-final-llm-comparison" -ForegroundColor Green
+    Write-Host "Risultati disponibili in: $projectRoot\reports\evaluation\comparisons\llm-backends" -ForegroundColor Green
 }
 finally {
     if ($uiWasRunning) {
-        & "$PSScriptRoot\start_ui.ps1"
+    & "$PSScriptRoot\..\rag\start_ui.ps1"
     }
     Pop-Location
 }

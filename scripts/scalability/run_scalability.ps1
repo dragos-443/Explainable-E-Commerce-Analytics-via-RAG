@@ -11,7 +11,7 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-$projectRoot = Split-Path -Parent $PSScriptRoot
+$projectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 $uiWasRunning = $false
 Push-Location $projectRoot
 
@@ -61,7 +61,7 @@ try {
 }
 finally {
     if ($uiWasRunning) {
-        & "$PSScriptRoot\start_ui.ps1"
+        & "$PSScriptRoot\..\rag\start_ui.ps1"
     }
     Pop-Location
 }

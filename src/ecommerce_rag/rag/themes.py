@@ -7,6 +7,8 @@ from typing import Dict
 from pyspark.sql import Column, DataFrame
 from pyspark.sql import functions as F
 
+from ecommerce_rag.rag.text_quality import rag_text_is_eligible
+
 
 THEME_PATTERNS_V2: Dict[str, str] = {
     "non_delivery": r"\b(n[aã]o recebi|n[aã]o chegou|n[aã]o foi entregue|ainda n[aã]o|aguardando|nunca chegou)\b",
@@ -130,7 +132,7 @@ def classify_review_themes(
 ) -> DataFrame:
     """Classify every eligible textual review and return one row per theme."""
     classified = (
-        reviews.where(F.col("text_is_eligible"))
+        reviews.where(rag_text_is_eligible())
         .select(
             "review_id",
             "review_score",

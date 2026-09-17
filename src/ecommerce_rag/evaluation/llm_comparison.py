@@ -37,7 +37,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--environment", default="local")
     parser.add_argument(
         "--output-root",
-        default="/workspace/reports/evaluation/phase7-final-llm-comparison",
+        default="/workspace/reports/evaluation/comparisons/llm-backends",
     )
     return parser.parse_args()
 

@@ -15,7 +15,11 @@ import matplotlib.pyplot as plt
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument("--output-root", default="/workspace/reports/evaluation/core/phase7")
+    parser.add_argument(
+        "--retrieval-root",
+        default="/workspace/reports/evaluation/retrieval/development-20",
+    )
     return parser.parse_args()
 
 
@@ -121,7 +125,8 @@ def latency_plot(root: Path, payload: dict) -> None:
 def main() -> None:
     args = parse_args()
     root = Path(args.output_root)
-    retrieval = load(root, "retrieval_metrics.json")
+    retrieval_root = Path(args.retrieval_root)
+    retrieval = load(retrieval_root, "retrieval_metrics.json")
     themes = load(root, "theme_classification_metrics.json")
     theme_improvement = load(root, "theme_classifier_improvement_metrics.json")
     qualitative = load(root, "qualitative_metrics.json")
@@ -137,7 +142,7 @@ def main() -> None:
             len(set().union(*[set(ids) for ids in run["methods"].values()]))
             for run in reference_pool["runs"]
         )
-    retrieval_plot(root, retrieval)
+    retrieval_plot(retrieval_root, retrieval)
     theme_plot(root, themes)
     theme_improvement_plot(root, theme_improvement)
     latency_plot(root, efficiency)
@@ -208,7 +213,7 @@ def main() -> None:
             "dominant_warm_share": component_means[dominant] / warm["end_to_end"]["mean_seconds"],
         },
         "plots": [
-            "retrieval_comparison.png",
+            "../../retrieval/development-20/retrieval_comparison.png",
             "theme_f1.png",
             "theme_classifier_improvement.png",
             "latency_breakdown.png",

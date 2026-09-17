@@ -7,7 +7,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$projectRoot = Split-Path -Parent $PSScriptRoot
+$projectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
 Set-Location $projectRoot
 
 docker compose exec app python3 -m ecommerce_rag.evaluation.retrieval_holdout `

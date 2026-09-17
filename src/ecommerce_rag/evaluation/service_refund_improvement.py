@@ -26,10 +26,10 @@ from ecommerce_rag.rag.retrieval.service import RetrievalFilters
 THEME = "service_or_refund"
 LEGACY_DESCRIPTION = "assistenza senza risposta, problema non risolto, reso o rimborso"
 DEFAULT_BASELINE = Path(
-    "/workspace/reports/evaluation/retrieval-holdout-30/runs.json"
+    "/workspace/reports/evaluation/retrieval/holdout-30/runs.json"
 )
 DEFAULT_OUTPUT = Path(
-    "/workspace/reports/evaluation/service-refund-query-improvement"
+    "/workspace/reports/evaluation/diagnostics/service-refund-query"
 )
 
 

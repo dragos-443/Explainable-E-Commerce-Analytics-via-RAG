@@ -7,7 +7,7 @@ ROOT = Path("/workspace")
 def test_streamlit_application_is_packaged_for_compose_environment():
     requirements = (ROOT / "requirements-container.txt").read_text(encoding="utf-8")
     compose = (ROOT / "compose.yml").read_text(encoding="utf-8")
-    launcher = (ROOT / "scripts/start_ui.ps1").read_text(encoding="utf-8")
+    launcher = (ROOT / "scripts/rag/start_ui.ps1").read_text(encoding="utf-8")
 
     assert "streamlit==" in requirements
     assert "${STREAMLIT_PORT:-8501}:8501" in compose

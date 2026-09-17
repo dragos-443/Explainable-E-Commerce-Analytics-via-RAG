@@ -25,7 +25,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("mode", choices=("collect", "score", "score-development"))
     parser.add_argument("--environment", default="local")
     parser.add_argument("--per-theme", type=int, default=6)
-    parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument("--output-root", default="/workspace/reports/evaluation/core/phase7")
     return parser.parse_args()
 
 

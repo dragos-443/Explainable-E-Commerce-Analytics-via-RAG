@@ -58,6 +58,28 @@ def test_theme_classifier_covers_every_eligible_review(spark: SparkSession) -> N
     assert "d" not in grouped
 
 
+def test_non_meaningful_text_is_excluded_from_rag(spark: SparkSession) -> None:
+    reviews = spark.createDataFrame(
+        [
+            ("punctuation", 1, ".", True),
+            ("number", 2, "4", True),
+            ("emoji", 5, "😀", True),
+            ("short-meaningful", 1, "ru", True),
+            ("normal", 1, "Produto ruim", True),
+        ],
+        ["review_id", "review_score", "review_text", "text_is_eligible"],
+    )
+
+    classified_ids = {
+        row.review_id
+        for row in classify_review_themes(reviews, "test-v1")
+        .select("review_id")
+        .collect()
+    }
+
+    assert classified_ids == {"short-meaningful", "normal"}
+
+
 def test_delivery_delay_ignores_on_time_wording(spark: SparkSession) -> None:
     reviews = spark.createDataFrame(
         [

@@ -14,7 +14,7 @@ DATA_ROOT = Path(__file__).with_name("data")
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--demo-root", default="/workspace/reports/demo/phase6")
-    parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument("--output-root", default="/workspace/reports/evaluation/core/phase7")
     parser.add_argument(
         "--input-source",
         choices=("reference", "latest"),

@@ -41,7 +41,7 @@ def parse_args() -> argparse.Namespace:
         "--initial-index-summary",
         default="/workspace/reports/rag/phase4/index_summary.json",
     )
-    parser.add_argument("--output-root", default="/workspace/reports/evaluation/phase7")
+    parser.add_argument("--output-root", default="/workspace/reports/evaluation/core/phase7")
     return parser.parse_args()
 
 

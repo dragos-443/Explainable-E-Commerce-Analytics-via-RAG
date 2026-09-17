@@ -5,6 +5,8 @@ from __future__ import annotations
 from pyspark.sql import DataFrame
 from pyspark.sql import functions as F
 
+from ecommerce_rag.rag.text_quality import rag_text_is_eligible
+
 
 def build_document_text() -> F.Column:
     title = F.trim(F.col("review_comment_title_original"))
@@ -133,7 +135,7 @@ def build_rag_documents(
     )
     order_metadata = _order_metadata(orders, links)
     documents = (
-        reviews.where(F.col("text_is_eligible"))
+        reviews.where(rag_text_is_eligible())
         .join(order_metadata, "review_id", "left")
         .join(themes, "review_id", "left")
         .withColumn("document_id", F.col("review_id"))
@@ -202,9 +204,10 @@ def build_rag_documents(
 def validate_document_contract(
     reviews: DataFrame, documents: DataFrame, review_themes: DataFrame
 ) -> dict:
-    eligible_count = reviews.where(F.col("text_is_eligible")).count()
+    source_eligible_count = reviews.where(F.col("text_is_eligible")).count()
+    eligible_count = reviews.where(rag_text_is_eligible()).count()
     eligible_distinct = (
-        reviews.where(F.col("text_is_eligible")).select("review_id").distinct().count()
+        reviews.where(rag_text_is_eligible()).select("review_id").distinct().count()
     )
     document_count = documents.count()
     document_distinct = documents.select("document_id").distinct().count()
@@ -232,6 +235,8 @@ def validate_document_contract(
         for row in documents.groupBy("text_source").count().collect()
     }
     return {
+        "source_text_review_ids": source_eligible_count,
+        "excluded_non_meaningful_review_ids": source_eligible_count - eligible_distinct,
         "eligible_review_ids": eligible_distinct,
         "document_count": document_count,
         "theme_assignment_count": review_themes.count(),

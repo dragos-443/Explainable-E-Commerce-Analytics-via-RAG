@@ -14,6 +14,7 @@ from ecommerce_rag.analytics.engine import (
     baseline_filters,
 )
 from ecommerce_rag.analytics.metrics import NEGATIVE_SCORE_MAX
+from ecommerce_rag.rag.text_quality import rag_text_is_eligible
 from ecommerce_rag.rag.themes import ALL_THEMES, FALLBACK_THEMES
 
 
@@ -28,7 +29,7 @@ def _population_summary(reviews: DataFrame) -> Dict[str, Any]:
     row = reviews.agg(
         F.count("review_score").alias("total_reviews"),
         F.coalesce(
-            F.sum(F.when(F.col("text_is_eligible"), 1).otherwise(0)), F.lit(0)
+            F.sum(F.when(rag_text_is_eligible(), 1).otherwise(0)), F.lit(0)
         ).alias("text_reviews"),
         F.coalesce(
             F.sum(
@@ -40,7 +41,7 @@ def _population_summary(reviews: DataFrame) -> Dict[str, Any]:
             F.sum(
                 F.when(
                     (F.col("review_score") <= NEGATIVE_SCORE_MAX)
-                    & F.col("text_is_eligible"),
+                    & rag_text_is_eligible(),
                     1,
                 ).otherwise(0)
             ),
@@ -59,7 +60,7 @@ def _population_summary(reviews: DataFrame) -> Dict[str, Any]:
 
 def _theme_counts(reviews: DataFrame, review_themes: DataFrame) -> Dict[str, int]:
     eligible_negative_ids = reviews.where(
-        (F.col("review_score") <= NEGATIVE_SCORE_MAX) & F.col("text_is_eligible")
+        (F.col("review_score") <= NEGATIVE_SCORE_MAX) & rag_text_is_eligible()
     ).select("review_id")
     return {
         row.theme: row["count"]

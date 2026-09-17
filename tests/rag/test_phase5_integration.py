@@ -108,15 +108,16 @@ def test_theme_rates_use_all_negative_text_reviews_and_baseline() -> None:
     try:
         reviews = spark.createDataFrame(
             [
-                ("b1", "books", "SP", 2017, 12, 1, True),
-                ("b2", "books", "SP", 2018, 1, 5, True),
-                ("c1", "books", "SP", 2018, 3, 1, True),
-                ("c2", "books", "SP", 2018, 3, 2, True),
-                ("c3", "books", "SP", 2018, 3, 5, False),
+                ("b1", "books", "SP", 2017, 12, 1, "Entrega atrasada", True),
+                ("b2", "books", "SP", 2018, 1, 5, "Produto excelente", True),
+                ("c1", "books", "SP", 2018, 3, 1, "Pedido não chegou", True),
+                ("c2", "books", "SP", 2018, 3, 2, "Entrega atrasada", True),
+                ("c3", "books", "SP", 2018, 3, 5, None, False),
+                ("c4", "books", "SP", 2018, 3, 1, ".", True),
             ],
             "review_id string, product_category string, customer_state string, "
             "purchase_year int, purchase_month int, review_score int, "
-            "text_is_eligible boolean",
+            "review_text string, text_is_eligible boolean",
         )
         themes = spark.createDataFrame(
             [
@@ -125,6 +126,7 @@ def test_theme_rates_use_all_negative_text_reviews_and_baseline() -> None:
                 ("c1", "non_delivery", "rules-test"),
                 ("c2", "delivery_delay", "rules-test"),
                 ("c3", "other", "rules-test"),
+                ("c4", "uncertain", "rules-test"),
             ],
             ["review_id", "theme", "classifier_version"],
         )
@@ -135,10 +137,10 @@ def test_theme_rates_use_all_negative_text_reviews_and_baseline() -> None:
         spark.stop()
 
     current = result["current_population"]
-    assert current["total_reviews"] == 3
-    assert current["negative_reviews"] == 2
+    assert current["total_reviews"] == 4
+    assert current["negative_reviews"] == 3
     assert current["negative_text_reviews"] == 2
-    assert current["negative_text_coverage"] == 1.0
+    assert current["negative_text_coverage"] == 2 / 3
     by_theme = {item["theme"]: item for item in result["themes"]}
     assert by_theme["non_delivery"]["current_mention_rate"] == 0.5
     assert by_theme["non_delivery"]["baseline_mention_rate"] == 0.0

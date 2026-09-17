@@ -1,0 +1,302 @@
+[
+  {
+    "query_id": "perfumery_non_delivery_v2",
+    "question_it": "Quali recensioni segnalano profumi o cosmetici ordinati ma mai consegnati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "perfumery", "max_review_score": 2}
+  },
+  {
+    "query_id": "stationery_non_delivery_v2",
+    "question_it": "Quali recensioni riferiscono articoli di cartoleria mai ricevuti?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "stationery", "max_review_score": 2}
+  },
+  {
+    "query_id": "consoles_non_delivery_v2",
+    "question_it": "Quali recensioni indicano che console o videogiochi acquistati non sono mai arrivati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "consoles_games", "max_review_score": 2}
+  },
+  {
+    "query_id": "home_appliances_non_delivery_v2",
+    "question_it": "Quali recensioni segnalano elettrodomestici ordinati ma non ricevuti?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "home_appliances", "max_review_score": 2}
+  },
+  {
+    "query_id": "luggage_non_delivery_v2",
+    "question_it": "Quali recensioni lamentano bagagli o accessori da viaggio mai consegnati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "luggage_accessories", "max_review_score": 2}
+  },
+  {
+    "query_id": "musical_instruments_non_delivery_v2",
+    "question_it": "Quali recensioni riferiscono strumenti musicali acquistati ma mai arrivati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "musical_instruments", "max_review_score": 2}
+  },
+  {
+    "query_id": "bed_bath_rs_non_delivery_v2",
+    "question_it": "Quali recensioni del Rio Grande do Sul segnalano prodotti per letto, bagno e tavola mai ricevuti?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "bed_bath_table", "customer_state": "RS", "max_review_score": 2}
+  },
+  {
+    "query_id": "computers_feb_non_delivery_v2",
+    "question_it": "Quali recensioni relative ad acquisti di febbraio 2018 segnalano accessori per computer mai consegnati?",
+    "expected_aspects": ["non_delivery"],
+    "filters": {"product_category": "computers_accessories", "start_month": "2018-02", "end_month": "2018-02", "max_review_score": 2}
+  },
+  {
+    "query_id": "perfumery_delay_v2",
+    "question_it": "Quali recensioni segnalano profumi o cosmetici arrivati oltre la data prevista?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "perfumery", "max_review_score": 2}
+  },
+  {
+    "query_id": "stationery_delay_v2",
+    "question_it": "Quali recensioni riferiscono forti ritardi nella consegna di articoli di cartoleria?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "stationery", "max_review_score": 2}
+  },
+  {
+    "query_id": "consoles_delay_v2",
+    "question_it": "Quali recensioni indicano che console o videogiochi sono arrivati in ritardo?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "consoles_games", "max_review_score": 2}
+  },
+  {
+    "query_id": "home_appliances_delay_v2",
+    "question_it": "Quali recensioni lamentano elettrodomestici consegnati dopo il termine promesso?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "home_appliances", "max_review_score": 2}
+  },
+  {
+    "query_id": "luggage_delay_v2",
+    "question_it": "Quali recensioni segnalano ritardi nella consegna di valigie o accessori da viaggio?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "luggage_accessories", "max_review_score": 2}
+  },
+  {
+    "query_id": "musical_instruments_delay_v2",
+    "question_it": "Quali recensioni riferiscono strumenti musicali arrivati oltre la scadenza prevista?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "musical_instruments", "max_review_score": 2}
+  },
+  {
+    "query_id": "watches_may_delay_v2",
+    "question_it": "Quali recensioni relative ad acquisti di maggio 2018 segnalano orologi consegnati in ritardo?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "watches_gifts", "start_month": "2018-05", "end_month": "2018-05", "max_review_score": 2}
+  },
+  {
+    "query_id": "furniture_nov_delay_v2",
+    "question_it": "Quali recensioni relative ad acquisti di novembre 2017 segnalano mobili o complementi arrivati in ritardo?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "furniture_decor", "start_month": "2017-11", "end_month": "2017-11", "max_review_score": 2}
+  },
+  {
+    "query_id": "computers_mg_delay_v2",
+    "question_it": "Quali recensioni del Minas Gerais segnalano accessori per computer consegnati oltre il termine previsto?",
+    "expected_aspects": ["delivery_delay"],
+    "filters": {"product_category": "computers_accessories", "customer_state": "MG", "max_review_score": 2}
+  },
+  {
+    "query_id": "perfumery_missing_v2",
+    "question_it": "Quali recensioni segnalano ordini di profumeria arrivati incompleti o con articoli mancanti?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "perfumery", "max_review_score": 2}
+  },
+  {
+    "query_id": "stationery_wrong_v2",
+    "question_it": "Quali recensioni riferiscono articoli di cartoleria diversi da quelli ordinati?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "stationery", "max_review_score": 2}
+  },
+  {
+    "query_id": "consoles_incomplete_v2",
+    "question_it": "Quali recensioni segnalano console o videogiochi arrivati senza componenti o accessori previsti?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "consoles_games", "max_review_score": 2}
+  },
+  {
+    "query_id": "home_appliances_wrong_v2",
+    "question_it": "Quali recensioni indicano che è stato consegnato un elettrodomestico diverso da quello acquistato?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "home_appliances", "max_review_score": 2}
+  },
+  {
+    "query_id": "luggage_missing_v2",
+    "question_it": "Quali recensioni segnalano ordini di valigie o accessori da viaggio arrivati solo in parte?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "luggage_accessories", "max_review_score": 2}
+  },
+  {
+    "query_id": "musical_instruments_wrong_v2",
+    "question_it": "Quali recensioni riferiscono strumenti musicali o accessori differenti da quelli ordinati?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "musical_instruments", "max_review_score": 2}
+  },
+  {
+    "query_id": "bed_bath_nov_incomplete_v2",
+    "question_it": "Quali recensioni relative ad acquisti di novembre 2017 segnalano prodotti per la casa arrivati incompleti?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "bed_bath_table", "start_month": "2017-11", "end_month": "2017-11", "max_review_score": 2}
+  },
+  {
+    "query_id": "furniture_mg_missing_v2",
+    "question_it": "Quali recensioni del Minas Gerais segnalano mobili o complementi consegnati con pezzi mancanti?",
+    "expected_aspects": ["wrong_or_missing_item"],
+    "filters": {"product_category": "furniture_decor", "customer_state": "MG", "max_review_score": 2}
+  },
+  {
+    "query_id": "perfumery_damaged_v2",
+    "question_it": "Quali recensioni segnalano profumi o cosmetici arrivati rotti, aperti o danneggiati?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "perfumery", "max_review_score": 2}
+  },
+  {
+    "query_id": "stationery_damaged_v2",
+    "question_it": "Quali recensioni riferiscono articoli di cartoleria arrivati rotti o inutilizzabili?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "stationery", "max_review_score": 2}
+  },
+  {
+    "query_id": "consoles_defective_v2",
+    "question_it": "Quali recensioni segnalano console, videogiochi o accessori non funzionanti?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "consoles_games", "max_review_score": 2}
+  },
+  {
+    "query_id": "home_appliances_defective_v2",
+    "question_it": "Quali recensioni descrivono elettrodomestici difettosi o che hanno smesso di funzionare?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "home_appliances", "max_review_score": 2}
+  },
+  {
+    "query_id": "luggage_damaged_v2",
+    "question_it": "Quali recensioni segnalano valigie o accessori da viaggio arrivati rotti o danneggiati?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "luggage_accessories", "max_review_score": 2}
+  },
+  {
+    "query_id": "musical_instruments_defective_v2",
+    "question_it": "Quali recensioni riferiscono strumenti musicali difettosi, rotti o non funzionanti?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "musical_instruments", "max_review_score": 2}
+  },
+  {
+    "query_id": "computers_feb_defective_v2",
+    "question_it": "Quali recensioni relative ad acquisti di febbraio 2018 segnalano accessori per computer difettosi?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "computers_accessories", "start_month": "2018-02", "end_month": "2018-02", "max_review_score": 2}
+  },
+  {
+    "query_id": "housewares_rj_damaged_v2",
+    "question_it": "Quali recensioni di Rio de Janeiro segnalano articoli per la casa arrivati rotti o danneggiati?",
+    "expected_aspects": ["damaged_or_defective"],
+    "filters": {"product_category": "housewares", "customer_state": "RJ", "max_review_score": 2}
+  },
+  {
+    "query_id": "perfumery_service_unresolved_v2",
+    "question_it": "Quali recensioni segnalano reclami già inviati all'assistenza per prodotti di profumeria ma rimasti senza risposta o soluzione?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "perfumery", "max_review_score": 2}
+  },
+  {
+    "query_id": "stationery_refund_unresolved_v2",
+    "question_it": "Quali recensioni riferiscono rimborsi già richiesti per articoli di cartoleria ma non ricevuti?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "stationery", "max_review_score": 2}
+  },
+  {
+    "query_id": "consoles_support_unresolved_v2",
+    "question_it": "Quali recensioni segnalano richieste già rivolte all'assistenza per console o videogiochi ma non risolte?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "consoles_games", "max_review_score": 2}
+  },
+  {
+    "query_id": "home_appliances_refund_unresolved_v2",
+    "question_it": "Quali recensioni indicano che un rimborso per un elettrodomestico era già stato richiesto ma non è arrivato?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "home_appliances", "max_review_score": 2}
+  },
+  {
+    "query_id": "luggage_return_unresolved_v2",
+    "question_it": "Quali recensioni descrivono resi o cambi già richiesti per bagagli e rimasti senza soluzione?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "luggage_accessories", "max_review_score": 2}
+  },
+  {
+    "query_id": "musical_instruments_support_unresolved_v2",
+    "question_it": "Quali recensioni segnalano reclami già aperti per strumenti musicali ai quali l'assistenza non ha risposto?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "musical_instruments", "max_review_score": 2}
+  },
+  {
+    "query_id": "bed_bath_rs_service_unresolved_v2",
+    "question_it": "Quali recensioni del Rio Grande do Sul segnalano richieste di assistenza o rimborso già avviate per prodotti da letto, bagno e tavola ma ancora irrisolte?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "bed_bath_table", "customer_state": "RS", "max_review_score": 2}
+  },
+  {
+    "query_id": "computers_mg_refund_unresolved_v2",
+    "question_it": "Quali recensioni del Minas Gerais riferiscono rimborsi già richiesti per accessori da computer ma non ricevuti?",
+    "expected_aspects": ["service_or_refund"],
+    "filters": {"product_category": "computers_accessories", "customer_state": "MG", "max_review_score": 2}
+  },
+  {
+    "query_id": "perfumery_quality_v2",
+    "question_it": "Quali recensioni descrivono profumi o cosmetici di qualità scadente o diversi dalle aspettative?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "perfumery", "max_review_score": 2}
+  },
+  {
+    "query_id": "stationery_quality_v2",
+    "question_it": "Quali recensioni segnalano articoli di cartoleria fragili o realizzati con materiali scadenti?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "stationery", "max_review_score": 2}
+  },
+  {
+    "query_id": "consoles_quality_v2",
+    "question_it": "Quali recensioni indicano che console, videogiochi o accessori erano molto diversi da descrizione e aspettative?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "consoles_games", "max_review_score": 2}
+  },
+  {
+    "query_id": "home_appliances_quality_v2",
+    "question_it": "Quali recensioni descrivono elettrodomestici di qualità molto inferiore a quella pubblicizzata?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "home_appliances", "max_review_score": 2}
+  },
+  {
+    "query_id": "luggage_quality_v2",
+    "question_it": "Quali recensioni segnalano valigie o accessori da viaggio fragili e di scarsa qualità?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "luggage_accessories", "max_review_score": 2}
+  },
+  {
+    "query_id": "musical_instruments_quality_v2",
+    "question_it": "Quali recensioni descrivono strumenti musicali costruiti male o non conformi alla descrizione?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "musical_instruments", "max_review_score": 2}
+  },
+  {
+    "query_id": "watches_may_quality_v2",
+    "question_it": "Quali recensioni relative ad acquisti di maggio 2018 descrivono orologi di qualità inferiore alle aspettative?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "watches_gifts", "start_month": "2018-05", "end_month": "2018-05", "max_review_score": 2}
+  },
+  {
+    "query_id": "furniture_nov_quality_v2",
+    "question_it": "Quali recensioni relative ad acquisti di novembre 2017 descrivono mobili diversi dalle foto o di qualità scadente?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "furniture_decor", "start_month": "2017-11", "end_month": "2017-11", "max_review_score": 2}
+  },
+  {
+    "query_id": "toys_dec_quality_v2",
+    "question_it": "Quali recensioni relative ad acquisti di dicembre 2017 segnalano giocattoli fragili o di pessima qualità?",
+    "expected_aspects": ["quality_or_expectation"],
+    "filters": {"product_category": "toys", "start_month": "2017-12", "end_month": "2017-12", "max_review_score": 2}
+  }
+]

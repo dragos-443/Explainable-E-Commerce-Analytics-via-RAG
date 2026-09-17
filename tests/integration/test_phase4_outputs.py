@@ -31,16 +31,16 @@ def spark() -> SparkSession:
 
 def test_document_population_and_text_sources_reconcile(spark: SparkSession) -> None:
     documents = spark.read.parquet(f"{CURATED}/rag_documents")
-    assert documents.count() == 42_380
-    assert documents.select("document_id").distinct().count() == 42_380
+    assert documents.count() == 42_114
+    assert documents.select("document_id").distinct().count() == 42_114
     assert {
         row.text_source: row["count"]
         for row in documents.groupBy("text_source").count().collect()
-    } == {"title": 1_721, "message": 30_863, "title_and_message": 9_796}
+    } == {"title": 1_622, "message": 30_721, "title_and_message": 9_771}
     assert documents.where(
         "text_source = 'title' and document_text like 'Title: %' "
         "and document_text not like '%Comment:%'"
-    ).count() == 1_721
+    ).count() == 1_622
     assert documents.where(
         "document_text is null or trim(document_text) = ''"
     ).count() == 0
@@ -49,7 +49,7 @@ def test_document_population_and_text_sources_reconcile(spark: SparkSession) -> 
 def test_theme_dataset_is_complete_versioned_and_unique(spark: SparkSession) -> None:
     themes = spark.read.parquet(f"{CURATED}/review_themes")
     documents = spark.read.parquet(f"{CURATED}/rag_documents")
-    assert themes.count() == 43_405
+    assert themes.count() == 43_139
     assert themes.groupBy("review_id", "theme").count().where("count > 1").count() == 0
     assert themes.select("review_id").distinct().count() == documents.count()
     assert themes.select("classifier_version").distinct().first()[0] == "rules-pt-v3"
@@ -80,7 +80,7 @@ def test_chroma_population_and_title_only_documents() -> None:
         host=config["chroma"]["host"], port=config["chroma"]["port"]
     )
     collection = client.get_collection(config["chroma"]["collection"])
-    assert collection.count() == 42_380
+    assert collection.count() == 42_114
     title_only = collection.get(
         where={"text_source": "title"}, limit=1, include=["documents", "metadatas"]
     )
@@ -96,10 +96,10 @@ def test_idempotent_index_run_skips_every_unchanged_document() -> None:
     summary = json.loads(
         (REPORT_ROOT / "index_idempotent.json").read_text(encoding="utf-8")
     )
-    assert summary["documents_after"] == 42_380
+    assert summary["documents_after"] == 42_114
     assert summary["documents_upserted"] == 0
     assert summary["documents_metadata_updated"] == 0
-    assert summary["documents_skipped_unchanged"] == 42_380
+    assert summary["documents_skipped_unchanged"] == 42_114
     assert summary["stale_documents_removed"] == 0
 
 
